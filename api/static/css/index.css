@@ -136,7 +136,7 @@ button {
 }
 
 
-#overlay {
+#info-overlay {
   color: white;
   background: rgba(0, 0, 0, .5);
   z-index: 2;
@@ -149,12 +149,12 @@ button {
   transition: .2s linear;
 }
 
-#overlay.is-open {
+#info-overlay.is-open {
   visibility: visible;
   opacity: 1;
 }
 
-#overlay-dialog {
+#info-overlay-dialog {
   position: relative;
   width: 35rem;
   height: 28rem;
@@ -163,7 +163,7 @@ button {
   background-color: #333;
 }
 
-#close-button {
+#info-close-button {
   cursor: pointer;
   position: absolute;
   color: white;
@@ -177,46 +177,46 @@ button {
   transition: .2s ease;
 }
 
-#close-button:hover {
+#info-close-button:hover {
   color: lightblue;
   border-color: lightblue;
 }
 
-#overlay-hr {
+#info-overlay-hr {
   width: 50%;
   margin-left: auto;
   margin-right: auto;
   margin-top: 1%;
 }
 
-#overlay-title {
+#info-overlay-title {
   font-size: 3rem;
   font-family: "Rubik", sans-serif;
 }
 
-#overlay-desc {
+#info-overlay-desc {
   font-size: 1.3rem;
   font-family: 'Roboto', sans-serif;
 }
 
-#header-text {
+#info-header-text {
   padding-top: 6%;
 }
 
-#overlay-body {
+#info-overlay-body {
   font-family: "Roboto", sans-serif;
   padding: 10% 1rem;
   display: block;
   line-height: 1.5rem;
 }
 
-#play-now-button {
+#info-play-now-button {
   border: 0.1rem solid #fff;
   bottom: 2.5%;
   transition: .2s ease-in-out;
 }
 
-#play-now-button:hover {
+#info-play-now-button:hover {
   background: transparent;
   color: #fff;
 }

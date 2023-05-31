@@ -10,9 +10,9 @@ const poster = document.getElementById("album-cover")
 const header = document.getElementById("header")
 const loading_screen = document.getElementById("loading-screen")
 const info = document.getElementById('info')
-const close_overlay = document.querySelector("#close-button")
-const play_now = document.querySelector("#play-now-button")
-const overlay = document.querySelector("#overlay")
+const close_overlay = document.querySelector("#info-close-button")
+const play_now = document.querySelector("#info-play-now-button")
+const overlay = document.querySelector("#info-overlay")
 const orig_overlay = overlay.className
 
 
