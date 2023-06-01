@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request, jsonify, redirect, url_for, abort, session
 from datetime import datetime
-from psycopg2 import pool
+from util.DButil import create_connection, get_connection, release_connection
 import os
 # https://itunes.apple.com/search?term={album_name}&country=US&media=music&entity=album&limit=1
 
@@ -16,48 +16,12 @@ app = Flask(__name__)
 app.secret_key = os.environ.get("SECRET_KEY")
 
 
-connection_pool = pool.SimpleConnectionPool(
-    minconn=1,
-    maxconn=10,
-    host=os.environ.get("POSTGRES_HOST"),
-    dbname=os.environ.get("POSTGRES_DATABASE"),
-    user=os.environ.get("POSTGRES_USER"),
-    password=os.environ.get("POSTGRES_PASSWORD")
-)
-
-
-def get_connection():
-    return connection_pool.getconn()
-
-
-def release_connection(conn):
-    connection_pool.putconn(conn)
-
-
-def create_puzzles_table():
-    print("DEBUG")
-    print("DEBUG")
-    print("DEBUG")
-    print("DEBUG")
-    print("DEBUG")
-    print("DEBUG")
-    conn = get_connection()
-    with conn.cursor() as cursor:
-        cursor.execute(
-            """
-            CREATE TABLE IF NOT EXISTS puzzles (
-                id SERIAL PRIMARY KEY,
-                date TIMESTAMP NOT NULL,
-                answer TEXT NOT NULL
-            )
-            """
-        )
-        conn.commit()
-    release_connection(conn)
+connection_pool = create_connection(os.environ.get("POSTGRES_HOST"), os.environ.get("POSTGRES_DATABASE"),
+                                    os.environ.get("POSTGRES_USER"), os.environ.get("POSTGRES_PASSWORD"))
 
 
 def load_puzzles():
-    conn = get_connection()
+    conn = get_connection(connection_pool)
     with conn.cursor() as cursor:
         cursor.execute("SELECT id, date, answer FROM puzzles")
         rows = cursor.fetchall()
@@ -71,40 +35,41 @@ def load_puzzles():
         }
         puzzles.append(puzzle)
 
-    release_connection(conn)
+    release_connection(connection_pool, conn)
     return puzzles
 
 
 def save_puzzle(puzzle):
-    conn = get_connection()
+    conn = get_connection(connection_pool)
     with conn.cursor() as cursor:
         date = puzzle["date"]
         answer = puzzle["answer"]
-        cursor.execute("INSERT INTO puzzles (date, answer) VALUES (%s, %s)", (date, answer))
+        cursor.execute(
+            "INSERT INTO puzzles (date, answer) VALUES (%s, %s)", (date, answer))
         conn.commit()
-    release_connection(conn)
+    release_connection(connection_pool, conn)
 
 
 def delete_puzzle(id):
-    conn = get_connection()
+    conn = get_connection(connection_pool)
     with conn.cursor() as cursor:
         cursor.execute(
             "DELETE FROM puzzles WHERE id = %s",
             (id,)
         )
         conn.commit()
-    
-    release_connection(conn)
+
+    release_connection(connection_pool, conn)
 
 
 def load_puzzles_last(time):
-    conn = get_connection()
+    conn = get_connection(connection_pool)
     with conn.cursor() as cursor:
         cursor.execute(
             "SELECT answer FROM puzzles WHERE date <= %s ORDER BY date DESC LIMIT 1", (time,))
         last = cursor.fetchone()
-    
-    release_connection(conn)
+
+    release_connection(connection_pool, conn)
     return last
 
 
