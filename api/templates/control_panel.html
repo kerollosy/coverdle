@@ -12,7 +12,7 @@
     <ul>
         {% if queued_puzzles %}
             {% for puzzle in queued_puzzles %}
-                <li id="{{puzzle.id}}">{{ puzzle.date }} - {{ puzzle.answer }}</li> 
+                <li id="{{puzzle.id}}">{{ puzzle.date }} - {{ puzzle.answer }} - <a href="{{ puzzle.url }}">link</a></li> 
                 <input type="button" value="Remove" onclick="removeItem({{puzzle.id}})" id="{{puzzle.id}}">
             {% endfor %}
         {% endif %}
@@ -21,17 +21,13 @@
     <h2>Add New Puzzle</h2>
     <form action="{{ url_for('control_panel') }}" method="POST">
         <label for="date">Date:</label>
-        <input type="datetime-local" name="date" id="date" required>
+        <input type="date" name="date" id="date" required>
 
         <label for="answer">Answer:</label>
         <input type="text" name="answer" id="answer" required>
-
-        <label for="link">Link:</label>
-        <input type="checkbox" name="link" id="link">
         
         <label for="image">Image:</label>
-        <input type="file" name="image" id="image" accept="image/*">
-        <input type="text" name="image" id="image link" hidden>
+        <input type="text" name="link" id="image link">
 
         <button type="submit">Add Puzzle</button>
     </form>

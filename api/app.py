@@ -1,15 +1,18 @@
 from flask import Flask, render_template, request, jsonify, redirect, url_for, abort, session
+import requests
+import urllib.parse
 from datetime import datetime
 from util.DButil import create_connection, get_connection, release_connection
 import os
-# https://itunes.apple.com/search?term={album_name}&country=US&media=music&entity=album&limit=1
+from psycopg2.errors import UniqueViolation
 
 """
 TODO 
 + Save cookies till the next day to prevent players from replaying the same day
-+ Make the info button work
 + Make the contact button send an email to me
-+ Confirm that you want to know the correct answer
++ Confirm that you want to know the correct answer when clicking on the idk button
+- Make it "daily"
++ Make the alerts() popups
 """
 
 app = Flask(__name__)
@@ -20,10 +23,14 @@ connection_pool = create_connection(os.environ.get("POSTGRES_HOST"), os.environ.
                                     os.environ.get("POSTGRES_USER"), os.environ.get("POSTGRES_PASSWORD"))
 
 
+default_cover = "https://i.imgur.com/1WWcfWL.jpeg"
+cache = {"date": None, "cover_src": default_cover, "answer": "blond"}
+
+
 def load_puzzles():
     conn = get_connection(connection_pool)
     with conn.cursor() as cursor:
-        cursor.execute("SELECT id, date, answer FROM puzzles")
+        cursor.execute("SELECT id, date, answer, url FROM puzzles")
         rows = cursor.fetchall()
 
     puzzles = []
@@ -31,7 +38,8 @@ def load_puzzles():
         puzzle = {
             'id': row[0],
             'date': row[1],
-            'answer': row[2]
+            'answer': row[2],
+            'url': row[3]
         }
         puzzles.append(puzzle)
 
@@ -39,13 +47,23 @@ def load_puzzles():
     return puzzles
 
 
-def save_puzzle(puzzle):
+def save_puzzle(date, answer, url):
+    if not url:
+        res = requests.get(
+            f"https://itunes.apple.com/search?term={urllib.parse.quote(answer)}&country=US&media=music&entity=album&limit=1")
+        data = res.json()
+
+        if data["resultCount"] > 0:
+            result = data["results"][0]
+            url = result["artworkUrl100"].replace("100x100", "500x500")
+        else:
+            url = default_cover
+
     conn = get_connection(connection_pool)
+
     with conn.cursor() as cursor:
-        date = puzzle["date"]
-        answer = puzzle["answer"]
         cursor.execute(
-            "INSERT INTO puzzles (date, answer) VALUES (%s, %s)", (date, answer))
+            "INSERT INTO puzzles (date, answer, url) VALUES (%s, %s, %s)", (date, answer, url))
         conn.commit()
     release_connection(connection_pool, conn)
 
@@ -66,25 +84,39 @@ def load_puzzles_last(time):
     conn = get_connection(connection_pool)
     with conn.cursor() as cursor:
         cursor.execute(
-            "SELECT answer FROM puzzles WHERE date <= %s ORDER BY date DESC LIMIT 1", (time,))
+            "SELECT answer, url FROM puzzles WHERE date <= %s ORDER BY date DESC LIMIT 1", (time,))
         last = cursor.fetchone()
 
     release_connection(connection_pool, conn)
     return last
 
 
-@app.route('/')
-def home():
-    current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+def update_cache():
+    current_time = datetime.now().strftime("%Y-%m-%d")
     result = load_puzzles_last(current_time)
-    print(result)
     if result is not None:
         answer = result[0]
-        cover_src = f"static/{answer}.img"
+        cover_src = result[1]
     else:
         # Default cover source if no matching row found
-        cover_src = "static/default.img"
-    return render_template('index.html', cover_src="https://i.imgur.com/1WWcfWL.jpeg")
+        cover_src = default_cover
+
+    cache["date"] = current_time
+    cache["cover_src"] = cover_src
+    cache["answer"] = answer
+
+
+@app.route('/')
+def home():
+    current_time = datetime.now().strftime("%Y-%m-%d")
+    if cache["date"] != current_time:
+        update_cache()
+
+    cover_src = cache["cover_src"]
+    answer = cache["answer"]
+
+    print(cover_src)
+    return render_template('index.html', cover_src=cover_src, answer=answer)
 
 
 def authenticate(username, password):
@@ -128,8 +160,8 @@ def remove():
     return jsonify(response)
 
 
-@app.route('/control_panel_login', methods=['GET', 'POST'])
-def control_panel_login():
+@app.route('/login', methods=['GET', 'POST'])
+def login():
     if 'logged_in' in session:
         return redirect(url_for('control_panel'))
 
@@ -150,17 +182,18 @@ def control_panel_login():
 @app.route('/control_panel', methods=['GET', 'POST'])
 def control_panel():
     if 'logged_in' not in session or not session['logged_in']:
-        return redirect(url_for('control_panel_login'))
+        return redirect(url_for('login'))
 
     queued_puzzles = load_puzzles()
     if request.method == 'POST':
-        date_and_time = request.form['date']
+        date = request.form['date']
         answer = request.form['answer']
-        puzzle = {
-            'date': date_and_time,
-            'answer': answer
-        }
-        save_puzzle(puzzle)
+        url = request.form['link']
+
+        try:
+            save_puzzle(date, answer, url)
+        except UniqueViolation:
+            return 'Duplicate date', 400
 
         return redirect(url_for('control_panel'))
 

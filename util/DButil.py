@@ -26,13 +26,15 @@ connection_pool = create_connection(os.environ.get("POSTGRES_HOST"), os.environ.
                                     os.environ.get("POSTGRES_USER"), os.environ.get("POSTGRES_PASSWORD"))
 
 conn = get_connection(connection_pool)
+# Initialize the puzzles table
 with conn.cursor() as cursor:
     cursor.execute(
         """
         CREATE TABLE IF NOT EXISTS puzzles (
             id SERIAL PRIMARY KEY,
-            date TIMESTAMP NOT NULL,
-            answer TEXT NOT NULL
+            date DATE NOT NULL UNIQUE,
+            answer TEXT NOT NULL,
+            url TEXT NOT NULL
         )
         """
     )
