@@ -120,6 +120,7 @@ def home():
 
     print(cover_src)
     print(datetime.now(tz))
+    print(tz)
     return render_template('index.html', cover_src=cover_src, answer=answer)
 
 
