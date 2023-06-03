@@ -12,8 +12,11 @@ TODO
 + Save cookies till the next day to prevent players from replaying the same day
 + Make the contact button send an email to me
 + Confirm that you want to know the correct answer when clicking on the idk button
-- Make it "daily"
 + Make the alerts() popups
++ View the correct answer and a timer after the user finishes
++ View the statistics (finished within x seconds and with y guesses left)
++ Show the recommendations correctly
+- Make it "daily"
 """
 
 app = Flask(__name__)
@@ -188,7 +191,6 @@ def login():
     '''
 
 
-# Add a display for the album cover that you're adding in control_panel
 @app.route('/control_panel', methods=['GET', 'POST'])
 def control_panel():
     if 'logged_in' not in session or not session['logged_in']:
