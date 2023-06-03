@@ -98,6 +98,9 @@ album_list = [
     "Funeral By Arcade Fire",
     "Continuum By John Mayer",
     "The Black Album By Jay-Z",
-    "Toys in the Attic By Aerosmith"
-    "Blonde By Frank Ocean"
+    "Toys in the Attic By Aerosmith",
+    "Blonde By Frank Ocean",
+    "Mr. Morale & the Big Steppers By Kendrick Lamar",
+    "The Life of Pablo By Kanye West",
+    "Rodeo By Travis Scott"
 ]
