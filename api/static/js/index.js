@@ -28,7 +28,7 @@ let started = false
 const ans = document.querySelector(".ans")
 const correctAnswer = ans.id.toLowerCase()
 ans.remove()
-const options = ["blond", "blonde", "bloray", "blorax", "damn"]
+const options = window.puzzles
 
 
 // Canvas variables

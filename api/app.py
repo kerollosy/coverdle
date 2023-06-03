@@ -3,6 +3,7 @@ import requests
 import urllib.parse
 from datetime import datetime
 from util.DButil import create_connection, get_connection, release_connection
+from util.puzzleUtil import album_list
 import os
 from psycopg2.errors import UniqueViolation
 import pytz
@@ -15,7 +16,7 @@ TODO
 + Make the alerts() popups
 + View the correct answer and a timer after the user finishes
 + View the statistics (finished within x seconds and with y guesses left)
-+ Show the recommendations correctly
+- Show the recommendations correctly
 - Make it "daily"
 """
 
@@ -29,7 +30,8 @@ connection_pool = create_connection(os.environ.get("POSTGRES_HOST"), os.environ.
 
 
 default = {"cover": "https://i.imgur.com/1WWcfWL.jpeg", "answer": "blond"}
-cache = {"date": None, "cover_src": default["cover"], "answer": default["answer"], "puzzles": []}
+cache = {"date": None,
+         "cover_src": default["cover"], "answer": default["answer"], "puzzles": []}
 
 
 def update_cache():
@@ -52,7 +54,8 @@ def update_cache():
 def load_puzzles():
     conn = get_connection(connection_pool)
     with conn.cursor() as cursor:
-        cursor.execute("SELECT id, date, answer, url FROM puzzles ORDER BY date ASC")
+        cursor.execute(
+            "SELECT id, date, answer, url FROM puzzles ORDER BY date ASC")
         rows = cursor.fetchall()
 
     puzzles = []
@@ -113,8 +116,6 @@ def load_puzzles_last(time):
     return last
 
 
-
-
 @app.route('/')
 def home():
     current_time = datetime.now(tz).strftime("%Y-%m-%d")
@@ -127,7 +128,7 @@ def home():
     print(cover_src)
     print(datetime.now(tz))
     print(tz)
-    return render_template('index.html', cover_src=cover_src, answer=answer)
+    return render_template('index.html', cover_src=cover_src, answer=answer, puzzles=album_list)
 
 
 def authenticate(username, password):
