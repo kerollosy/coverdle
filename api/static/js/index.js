@@ -26,7 +26,7 @@ let pixelate = Math.trunc(sampleSize / (remainingTime * 10))
 let guesses = 3
 let started = false
 const ans = document.querySelector(".ans")
-const correctAnswer = ans.id.toLowerCase()
+const correctAnswer = ans.id
 ans.remove()
 const options = window.puzzles
 
@@ -190,7 +190,7 @@ function handleMainButtonClick() {
 // Handle click on the submit guess button
 function handleSubmitGuess() {
   const userGuess = guessInput.value.toLowerCase()
-  if (userGuess === correctAnswer) {
+  if (userGuess === correctAnswer.toLowerCase()) {
     alert("Correct! You win!")
     showWinScreen()
   } else {
