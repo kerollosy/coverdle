@@ -25,14 +25,30 @@ connection_pool = create_connection(os.environ.get("POSTGRES_HOST"), os.environ.
                                     os.environ.get("POSTGRES_USER"), os.environ.get("POSTGRES_PASSWORD"))
 
 
-default_cover = "https://i.imgur.com/1WWcfWL.jpeg"
-cache = {"date": None, "cover_src": default_cover, "answer": "blond"}
+default = {"cover": "https://i.imgur.com/1WWcfWL.jpeg", "answer": "blond"}
+cache = {"date": None, "cover_src": default["cover"], "answer": default["answer"]}
+
+
+def update_cache():
+    current_time = datetime.now(tz).strftime("%Y-%m-%d")
+    result = load_puzzles_last(current_time)
+    if result is not None:
+        answer = result[0]
+        cover_src = result[1]
+    else:
+        # Default cover source if no matching row found
+        cover_src = default["cover"]
+        answer = default["answer"]
+
+    cache["date"] = current_time
+    cache["cover_src"] = cover_src
+    cache["answer"] = answer
 
 
 def load_puzzles():
     conn = get_connection(connection_pool)
     with conn.cursor() as cursor:
-        cursor.execute("SELECT id, date, answer, url FROM puzzles")
+        cursor.execute("SELECT id, date, answer, url FROM puzzles ORDER BY date ASC")
         rows = cursor.fetchall()
 
     puzzles = []
@@ -57,12 +73,12 @@ def save_puzzle(date, answer, url):
 
         if data["resultCount"] > 0:
             result = data["results"][0]
-            url = result["artworkUrl100"].replace("100x100", "500x500")
+            url = result["artworkUrl100"].replace("100x100", "1000x1000")
         else:
-            url = default_cover
+            url = default["cover"]
 
     conn = get_connection(connection_pool)
-
+    
     with conn.cursor() as cursor:
         cursor.execute(
             "INSERT INTO puzzles (date, answer, url) VALUES (%s, %s, %s)", (date, answer, url))
@@ -93,24 +109,10 @@ def load_puzzles_last(time):
     return last
 
 
-def update_cache():
-    current_time = datetime.now(tz).strftime("%Y-%m-%d")
-    result = load_puzzles_last(current_time)
-    if result is not None:
-        answer = result[0]
-        cover_src = result[1]
-    else:
-        # Default cover source if no matching row found
-        cover_src = default_cover
-
-    cache["date"] = current_time
-    cache["cover_src"] = cover_src
-    cache["answer"] = answer
 
 
 @app.route('/')
 def home():
-    # TODO: Check if something got deleted in the database, if so then update the cache
     current_time = datetime.now(tz).strftime("%Y-%m-%d")
     if cache["date"] != current_time:
         update_cache()
@@ -161,6 +163,7 @@ def remaining_time():
 def remove():
     data = request.get_json()
     delete_puzzle(data["id"])
+    update_cache()
     response = {'message': 'Item removed successfully'}
     return jsonify(response)
 
@@ -198,6 +201,7 @@ def control_panel():
 
         try:
             save_puzzle(date, answer, url)
+            update_cache()
         except UniqueViolation:
             return 'Duplicate date', 400
 
