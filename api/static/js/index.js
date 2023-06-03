@@ -25,7 +25,9 @@ let defaultSampleSize = sampleSize
 let pixelate = Math.trunc(sampleSize / (remainingTime * 10))
 let guesses = 3
 let started = false
-const correctAnswer = "blond"
+const ans = document.querySelector(".ans")
+const correctAnswer = ans.id.toLowerCase()
+ans.remove()
 const options = ["blond", "blonde", "bloray", "blorax", "damn"]
 
 
@@ -149,9 +151,6 @@ function updateTimer() {
   remainingTime--
   timerElement.textContent = remainingTime
   if (remainingTime === 0) {
-    clearInterval(imaged)
-  }
-  if (remainingTime === -1) {
     alert("Time's up! You lose.")
     showFailScreen()
   }
@@ -190,7 +189,6 @@ function handleMainButtonClick() {
 // Handle click on the submit guess button
 function handleSubmitGuess() {
   const userGuess = guessInput.value.toLowerCase()
-  console.log(poster.src)
   if (userGuess === correctAnswer) {
     alert("Correct! You win!")
     showWinScreen()
