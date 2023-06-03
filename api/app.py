@@ -26,7 +26,7 @@ connection_pool = create_connection(os.environ.get("POSTGRES_HOST"), os.environ.
 
 
 default = {"cover": "https://i.imgur.com/1WWcfWL.jpeg", "answer": "blond"}
-cache = {"date": None, "cover_src": default["cover"], "answer": default["answer"]}
+cache = {"date": None, "cover_src": default["cover"], "answer": default["answer"], "puzzles": []}
 
 
 def update_cache():
@@ -43,6 +43,7 @@ def update_cache():
     cache["date"] = current_time
     cache["cover_src"] = cover_src
     cache["answer"] = answer
+    cache["puzzles"] = load_puzzles()
 
 
 def load_puzzles():
@@ -78,7 +79,7 @@ def save_puzzle(date, answer, url):
             url = default["cover"]
 
     conn = get_connection(connection_pool)
-    
+
     with conn.cursor() as cursor:
         cursor.execute(
             "INSERT INTO puzzles (date, answer, url) VALUES (%s, %s, %s)", (date, answer, url))
@@ -193,7 +194,9 @@ def control_panel():
     if 'logged_in' not in session or not session['logged_in']:
         return redirect(url_for('login'))
 
-    queued_puzzles = load_puzzles()
+    if not cache["puzzles"]:
+        update_cache()
+
     if request.method == 'POST':
         date = request.form['date']
         answer = request.form['answer']
@@ -207,6 +210,7 @@ def control_panel():
 
         return redirect(url_for('control_panel'))
 
+    queued_puzzles = cache["puzzles"]
     return render_template('control_panel.html', queued_puzzles=queued_puzzles)
 
 
