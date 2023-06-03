@@ -117,7 +117,7 @@ def home():
     answer = cache["answer"]
 
     print(cover_src)
-    print(current_time)
+    print(datetime.now())
     return render_template('index.html', cover_src=cover_src, answer=answer)
 
 
