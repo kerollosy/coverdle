@@ -74,7 +74,6 @@ guessInput.addEventListener('input', function () {
     return false
   }
 
-
   if (val.length >= 2) {
     // Remove existing data list
     removeDataLists()
@@ -82,15 +81,17 @@ guessInput.addEventListener('input', function () {
     let datalist = document.createElement("datalist")
     datalist.setAttribute("id", "albums")
     guessInput.parentNode.appendChild(datalist)
-    for (i = 0; i < options.length; i++) {
+    for (const option of options) {
+      let albumName = option.albumName;
+      let artist = option.artist
       // Check if the value is one of the options
-      if (val == options[i]) {
+      if (val == albumName) {
         removeDataLists()
-      } else if (options[i].toUpperCase().includes(val.toUpperCase())) {
-        let option = document.createElement("option")
-        option.setAttribute("value", options[i])
-        option.innerHTML = options[i]
-        datalist.appendChild(option)
+      } else if (albumName.toUpperCase().includes(val.toUpperCase())) {
+        let option_element = document.createElement("option")
+        option_element.setAttribute("value", albumName)
+        option_element.innerHTML = artist
+        datalist.appendChild(option_element)
       }
     }
     /* CODE FOR USING API (SLOWER)
