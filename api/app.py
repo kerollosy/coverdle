@@ -108,6 +108,7 @@ def update_cache():
 
 @app.route('/')
 def home():
+    # TODO: Check if something got deleted in the database, if so then update the cache
     current_time = datetime.now().strftime("%Y-%m-%d")
     if cache["date"] != current_time:
         update_cache()
@@ -116,6 +117,7 @@ def home():
     answer = cache["answer"]
 
     print(cover_src)
+    print(current_time)
     return render_template('index.html', cover_src=cover_src, answer=answer)
 
 
@@ -179,6 +181,7 @@ def login():
     '''
 
 
+# Add a display for the album cover that you're adding in control_panel
 @app.route('/control_panel', methods=['GET', 'POST'])
 def control_panel():
     if 'logged_in' not in session or not session['logged_in']:
