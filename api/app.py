@@ -5,6 +5,7 @@ from datetime import datetime
 from util.DButil import create_connection, get_connection, release_connection
 import os
 from psycopg2.errors import UniqueViolation
+import pytz
 
 """
 TODO 
@@ -17,6 +18,7 @@ TODO
 
 app = Flask(__name__)
 app.secret_key = os.environ.get("SECRET_KEY")
+tz = pytz.timezone("Egypt")
 
 
 connection_pool = create_connection(os.environ.get("POSTGRES_HOST"), os.environ.get("POSTGRES_DATABASE"),
@@ -92,7 +94,7 @@ def load_puzzles_last(time):
 
 
 def update_cache():
-    current_time = datetime.now().strftime("%Y-%m-%d")
+    current_time = datetime.now(tz).strftime("%Y-%m-%d")
     result = load_puzzles_last(current_time)
     if result is not None:
         answer = result[0]
@@ -109,7 +111,7 @@ def update_cache():
 @app.route('/')
 def home():
     # TODO: Check if something got deleted in the database, if so then update the cache
-    current_time = datetime.now().strftime("%Y-%m-%d")
+    current_time = datetime.now(tz).strftime("%Y-%m-%d")
     if cache["date"] != current_time:
         update_cache()
 
@@ -117,7 +119,7 @@ def home():
     answer = cache["answer"]
 
     print(cover_src)
-    print(datetime.now())
+    print(datetime.now(tz))
     return render_template('index.html', cover_src=cover_src, answer=answer)
 
 
@@ -140,7 +142,7 @@ def authenticate_required(f):
 
 
 def get_remaining_time(year, month, day, hour, minute):
-    now = datetime.now()
+    now = datetime.now(tz)
     target_date = datetime(year, month, day, hour, minute)
     remaining_time = target_date - now
     # Ensure the remaining time is not negative
