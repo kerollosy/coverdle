@@ -189,14 +189,14 @@ function handleMainButtonClick() {
 
 // Handle click on the submit guess button
 function handleSubmitGuess() {
-  const userGuess = guessInput.value.toLowerCase()
+  const userGuess = guessInput.value.toLowerCase().trim()
   if (userGuess === correctAnswer.toLowerCase()) {
     alert("Correct! You win!")
     showWinScreen()
   } else {
     guesses--
     if (guesses === 0) {
-      alert("Game over.")
+      alert("Game over. You lose.")
       showFailScreen()
     } else {
       alert("Wrong! Guesses left: " + guesses)
