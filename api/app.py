@@ -123,7 +123,7 @@ def home():
         update_cache()
 
     cover_src = cache["cover_src"]
-    answer = cache["answer"].title()
+    answer = cache["answer"].title().strip()
 
     print(cover_src)
     print(datetime.now(tz))
