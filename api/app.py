@@ -37,7 +37,7 @@ connection_pool = create_connection(os.environ.get("POSTGRES_HOST"), os.environ.
                                     os.environ.get("POSTGRES_USER"), os.environ.get("POSTGRES_PASSWORD"))
 
 
-default = {"cover": "https://i.imgur.com/1WWcfWL.jpeg", "answer": "blonde",
+default = {"cover": "https://i.imgur.com/1WWcfWL.jpeg", "answer": "Blonde",
            "album": "https://music.apple.com/us/album/blonde/1146195596"}
 cache = {"date": None,
          "cover_src": default["cover"], "answer": default["answer"], "puzzles": [], "album_url": default["album"]}
