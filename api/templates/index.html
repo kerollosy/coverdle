@@ -4,6 +4,7 @@
 <head>
     <link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet'>
     <link href='https://fonts.googleapis.com/css?family=Rubik:900' rel='stylesheet'>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans" rel="stylesheet">
     <link href="/static/favicon.svg" rel="icon" type="image/svg+xml">
     <link href="/static/css/index.css" rel="stylesheet" type="text/css">
     <meta charset="UTF-8">
@@ -49,7 +50,6 @@
                         <br />
                         Test your music knowledge!
                     </h3>
-                    <hr id="info-overlay-hr">
                 </div>
             </div>
             <div id="info-overlay-body">
@@ -61,6 +61,40 @@
             </div>
             <div class="center">
                 <button id="info-play-now-button">Play Now</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="contact-overlay" class="center">
+        <div id="contact-overlay-dialog">
+            <div id="contact-overlay-header">
+                <div id="contact-close-button" class="center">&times;</div>
+                <div id="contact-header-text">
+                    <h1 id="contact-overlay-title">Contact Me</h1>
+                    <h3 id="contact-overlay-desc">
+                        I would love to hear from you!
+                    </h3>
+                </div>
+            </div>
+            <div id="contact-overlay-body">
+                <form method="POST" action="/contact">
+                    <div class="input-box">
+                        <label class="input-label">Name</label>
+                        <input type="text" name="name" class="input-1" onfocus="setFocus(true)" onblur="setFocus(false)"
+                            required />
+                    </div>
+                    <div class="input-box">
+                        <label class="input-label">Email</label>
+                        <input type="email" name="email" class="input-1" id="email-input" onfocus="setFocus(true)"
+                            onblur="setFocus(false)" oninput="checkEmailValidity()" required />
+                    </div>
+                    <div class="input-box">
+                        <label class="input-label">Message</label>
+                        <textarea type="text" name="message" class="input-1" id="message-input" onfocus="setFocus(true)"
+                            onblur="setFocus(false)" required></textarea>
+                    </div>
+                    <input type="submit" id="contact-send-message" value="Send Message">
+                </form>
             </div>
         </div>
     </div>

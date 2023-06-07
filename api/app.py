@@ -1,12 +1,16 @@
-from flask import Flask, render_template, request, jsonify, redirect, url_for, abort, session
+import os
 import requests
 import urllib.parse
+import pytz
+import redis
+from flask import Flask, render_template, request, jsonify, redirect, url_for, abort, session
+from flask_limiter import Limiter
+from flask_limiter.util import get_remote_address
 from datetime import datetime
 from util.DButil import create_connection, get_connection, release_connection
 from util.puzzleUtil import album_list
-import os
 from psycopg2.errors import UniqueViolation
-import pytz
+
 
 """
 TODO 
@@ -20,7 +24,11 @@ TODO
 - Make it "daily"
 """
 
+pool = redis.connection.BlockingConnectionPool.from_url(
+    os.environ.get("REDIS_URL"))
 app = Flask(__name__)
+limiter = Limiter(app=app, key_func=get_remote_address, storage_uri="redis://", storage_options={"connection_pool": pool},
+                  strategy="fixed-window")
 app.secret_key = os.environ.get("SECRET_KEY")
 tz = pytz.timezone("Egypt")
 
@@ -116,6 +124,26 @@ def load_puzzles_last(time):
     return last
 
 
+def save_email(name, email, message, time):
+    conn = get_connection(connection_pool)
+    with conn.cursor() as cursor:
+        cursor.execute(
+            "INSERT INTO emails (subject, email, content, date, is_read) VALUES (%s, %s, %s, %s, %s)", (name, email, message, time, False, ))
+        conn.commit()
+    release_connection(connection_pool, conn)
+
+
+def load_emails():
+    conn = get_connection(connection_pool)
+    with conn.cursor() as cursor:
+        cursor.execute(
+            "SELECT subject, content, date, is_read FROM emails ORDER BY date DESC")
+        emails = cursor.fetchall()
+
+    release_connection(connection_pool, conn)
+    return emails
+
+
 @app.route('/')
 def home():
     current_time = datetime.now(tz).strftime("%Y-%m-%d")
@@ -123,10 +151,7 @@ def home():
         update_cache()
 
     cover_src = cache["cover_src"]
-    answer = cache["answer"].title()
-
-    print(cover_src)
-    print(datetime.now(tz))
+    answer = cache["answer"].title().strip()
     return render_template('index.html', cover_src=cover_src, answer=answer, puzzles=album_list)
 
 
@@ -214,6 +239,32 @@ def control_panel():
 
     queued_puzzles = cache["puzzles"]
     return render_template('control_panel.html', queued_puzzles=queued_puzzles)
+
+
+@app.errorhandler(429)
+def rate_limit_exceeded(e):
+    return '''<h1>You can send only 3 emails per day</h1><h2>Come back tommorrow</h2>''', 429
+
+
+@app.route('/contact', methods=['POST'])
+@limiter.limit("3/day")
+def contact():
+    name = request.form['name']
+    email = request.form['email']
+    message = request.form['message']
+    time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+
+    save_email(name, email, message, time)
+    return '<h1>Email sent!</h1>'
+
+
+@app.route('/emails', methods=['GET'])
+def emails():
+    if 'logged_in' not in session or not session['logged_in']:
+        return redirect(url_for('login'))
+
+    emails = load_emails()
+    return render_template("email.html", emails=emails)
 
 
 """ API

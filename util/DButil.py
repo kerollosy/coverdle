@@ -10,7 +10,8 @@ def create_connection(DB_host, DB_name, DB_user, DB_password, DB_port=5432):
         dbname=DB_name,
         user=DB_user,
         password=DB_password,
-        port=DB_port
+        port=DB_port,
+        sslmode="require"
     )
 
 
@@ -24,6 +25,7 @@ def release_connection(conn_pool, conn):
 
 connection_pool = create_connection(os.environ.get("POSTGRES_HOST"), os.environ.get("POSTGRES_DATABASE"),
                                     os.environ.get("POSTGRES_USER"), os.environ.get("POSTGRES_PASSWORD"))
+
 
 conn = get_connection(connection_pool)
 # Initialize the puzzles table
@@ -39,4 +41,22 @@ with conn.cursor() as cursor:
         """
     )
     conn.commit()
+
+
+# Initialize the emails table
+with conn.cursor() as cursor:
+    cursor.execute(
+        """
+        CREATE TABLE IF NOT EXISTS emails (
+            id SERIAL PRIMARY KEY,
+            subject TEXT NOT NULL,
+            content TEXT NOT NULL,
+            email TEXT NOT NULL,
+            date TIMESTAMP NOT NULL,
+            is_read BOOLEAN NOT NULL
+        )
+        """
+    )
+    conn.commit()
+
 release_connection(connection_pool, conn)

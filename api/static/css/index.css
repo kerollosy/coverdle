@@ -196,6 +196,7 @@ button {
 
 #info-overlay-desc {
   font-size: 1.3rem;
+  color: #bdbdbd;
   font-family: 'Roboto', sans-serif;
 }
 
@@ -219,6 +220,168 @@ button {
 #info-play-now-button:hover {
   background: transparent;
   color: #fff;
+}
+
+
+#contact-overlay {
+  color: white;
+  background: rgba(0, 0, 0, .5);
+  z-index: 2;
+  position: fixed;
+  top: 0;
+  width: 100vw;
+  height: 100vh;
+  visibility: hidden;
+  opacity: 0;
+  transition: .2s linear;
+}
+
+#contact-overlay.is-open {
+  visibility: visible;
+  opacity: 1;
+}
+
+#contact-overlay-dialog {
+  position: relative;
+  width: 35rem;
+  height: 28rem;
+  max-width: 90vw;
+  max-height: 90vh;
+  background-color: #333;
+}
+
+#contact-close-button {
+  cursor: pointer;
+  position: absolute;
+  color: white;
+  height: 2rem;
+  width: 2rem;
+  right: 2%;
+  top: 2%;
+  border: solid white 0.2rem;
+  border-radius: 100%;
+  font-size: 2rem;
+  transition: .2s ease;
+}
+
+#contact-close-button:hover {
+  color: lightblue;
+  border-color: lightblue;
+}
+
+#contact-overlay-hr {
+  width: 50%;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 1%;
+}
+
+#contact-overlay-title {
+  font-size: 3rem;
+  font-family: "Rubik", sans-serif;
+}
+
+#contact-overlay-desc {
+  font-size: 1.3rem;
+  color: #bdbdbd;
+  font-family: 'Roboto', sans-serif;
+}
+
+#contact-header-text {
+  padding-top: 6%;
+}
+
+#contact-overlay-body {
+  font-family: "Roboto", sans-serif;
+  padding: 1rem 1rem 10% 1rem;
+  display: block;
+  line-height: 1.5rem;
+}
+
+#message-input {
+  height: 100px;
+  resize: none;
+  font-family: 'Roboto', sans-serif;
+}
+
+#contact-send-message {
+  padding: 1rem 2rem;
+  border-radius: 0.3rem;
+  cursor: pointer;
+  border: 0.1rem solid #fff;
+  bottom: 2.5%;
+  transition: .2s ease-in-out;
+}
+
+#contact-send-message:hover {
+  background: transparent;
+  color: #fff;
+}
+
+
+
+.input-box {
+  position: relative;
+  margin: 10px 0;
+}
+
+.input-label {
+  position: absolute;
+  color: #80868b;
+  font-size: 16px;
+  font-weight: 400;
+  max-width: calc(100% - (2 * 8px));
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  left: 8px;
+  top: 13px;
+  padding: 0 8px;
+  transition: 250ms;
+  user-select: none;
+  pointer-events: none;
+}
+
+.input-1 {
+  box-sizing: border-box;
+  height: 50px;
+  width: 100%;
+  border-radius: 4px;
+  color: #202124;
+  border: 1px solid #dadce0;
+  padding: 20px 15px;
+  transition: 250ms;
+}
+
+.input-1:focus {
+  outline: none;
+  border: 2px solid #1a73e8;
+  transition: 250ms;
+}
+
+.input-box.focus .input-label,
+.input-box.active .input-label {
+  color: #1a73e8;
+  top: -1px;
+  left: 1px;
+  background: #fff;
+  font-size: 11px;
+  transition: 200ms;
+  background-color: transparent;
+}
+
+.input-box.error .input-label {
+  color: #f44336;
+  top: -1px;
+  left: 1px;
+  background: #fff;
+  font-size: 11px;
+  transition: 200ms;
+  background-color: transparent;
+}
+
+.input-1.error {
+  border: 2px solid #f44336;
 }
 
 

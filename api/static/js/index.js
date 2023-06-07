@@ -9,11 +9,17 @@ const mainElement = document.getElementById("main")
 const poster = document.getElementById("album-cover")
 const header = document.getElementById("header")
 const loading_screen = document.getElementById("loading-screen")
+
 const info = document.getElementById('info')
-const close_overlay = document.querySelector("#info-close-button")
-const play_now = document.querySelector("#info-play-now-button")
-const overlay = document.querySelector("#info-overlay")
-const orig_overlay = overlay.className
+const info_overlay = document.querySelector("#info-overlay")
+const info_orig_overlay = info_overlay.className
+const info_close_overlay = document.querySelector("#info-close-button")
+const info_play_now = document.querySelector("#info-play-now-button")
+
+const contact = document.getElementById("contact")
+const contact_overlay = document.querySelector("#contact-overlay")
+const contact_orig_overlay = contact_overlay.className
+const contact_close_overlay = document.querySelector("#contact-close-button")
 
 
 // Game variables
@@ -39,16 +45,6 @@ let canvas = document.createElement("canvas")
 canvas.width = width
 canvas.height = height
 const context = canvas.getContext("2d", { willReadFrequently: true })
-
-
-// Cookie
-const cookieName = 'gameCookie'
-let currentDate = 0
-let year = 0
-let month = 0
-let day = 0
-let cookieValue = 0
-let play = true
 
 
 
@@ -159,15 +155,69 @@ function updateTimer() {
 
 
 info.addEventListener('click', function () {
-  overlay.className = overlay.className + " is-open"
-});
+  info_overlay.className = info_overlay.className + " is-open"
+})
 
-close_overlay.addEventListener('click', () => {
-  overlay.className = orig_overlay
+info_close_overlay.addEventListener('click', () => {
+  info_overlay.className = info_orig_overlay
 })
-play_now.addEventListener('click', () => {
-  overlay.className = orig_overlay
+info_play_now.addEventListener('click', () => {
+  info_overlay.className = info_orig_overlay
 })
+
+
+contact.addEventListener('click', function () {
+  contact_overlay.className = contact_overlay.className + " is-open"
+})
+
+contact_close_overlay.addEventListener('click', () => {
+  contact_overlay.className = contact_orig_overlay
+})
+
+
+function setFocus(state) {
+  var element = document.activeElement;
+  if (state) {
+    setTimeout(function () {
+      if (element && element.parentNode) {
+        element.parentNode.classList.add("focus");
+      }
+    });
+  } else {
+    var box = document.querySelector("#input-box");
+    if (box) {
+      box.classList.remove("focus");
+    }
+    var inputs = document.querySelectorAll("input");
+    inputs.forEach(function (input) {
+      var parent = input.closest(".input-box");
+      if (parent) {
+        if (input.value) {
+          parent.classList.add("focus");
+        } else {
+          parent.classList.remove("focus");
+        }
+      }
+    });
+  }
+}
+
+
+function checkEmailValidity() {
+  var emailInput = document.getElementById("email-input");
+
+  if (emailInput.validity.valid) {
+    emailInput.parentNode.classList.remove("error")
+    emailInput.classList.remove("error")
+  } else {
+    emailInput.parentNode.classList.add("error");
+    emailInput.classList.add("error")
+  }
+  if (emailInput.value.length <= 0) {
+    emailInput.classList.remove("error")
+    emailInput.parentNode.classList.remove("error")
+  }
+}
 
 
 // Handle click on the main button
@@ -189,14 +239,14 @@ function handleMainButtonClick() {
 
 // Handle click on the submit guess button
 function handleSubmitGuess() {
-  const userGuess = guessInput.value.toLowerCase()
+  const userGuess = guessInput.value.toLowerCase().trim()
   if (userGuess === correctAnswer.toLowerCase()) {
     alert("Correct! You win!")
     showWinScreen()
   } else {
     guesses--
     if (guesses === 0) {
-      alert("Game over.")
+      alert("Game over. You lose.")
       showFailScreen()
     } else {
       alert("Wrong! Guesses left: " + guesses)
@@ -234,9 +284,6 @@ function gameFinish() {
   mainButton.style.display = "none"
   guessSection.style.display = "none"
   timerElement.style.display = "none"
-  if(play) {
-    // create a cookie
-  }
 }
 
 function showFailScreen() {
@@ -274,9 +321,6 @@ image.onload = function () {
       context.fillRect(x, y, sampleSize, sampleSize)
     }
   }
-
-  // check cookie, if there is a cookie then sat play to false
-  // if not then create a new one and set play to true
 }
 
 image.onerror = function () {

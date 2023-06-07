@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="../static/css/email.css" rel="stylesheet" type="text/css">
+    <title>Email</title>
+</head>
+
+<body>
+    <div class="mailbox">
+        <header>
+            <div class="logo">
+                <h1>Inbox</h1>
+            </div>
+            <div class="search-bar">
+                <input type="text" placeholder="Search...">
+                <button type="submit">Search</button>
+            </div>
+        </header>
+        <div class="mail-body">
+            <div class="mail-inbox">
+                {% for email in emails %}
+                    <div class="message {% if email[3] == 'read' %}read{% else %}unread{% endif %}">
+                        <span class="message-subject">{{ email[0] }}</span>
+                        <span class="message-content">{{ email[1] }}</span>
+                        <span class="datetime">
+                            {{ email[2] }}
+                        </span>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
