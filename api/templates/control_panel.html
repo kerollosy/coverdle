@@ -15,14 +15,14 @@
     {% if queued_puzzles %}
         <h2>Queued Puzzles</h2>
         <ul>
-        {% for puzzle in queued_puzzles %}
-            <li id="{{puzzle.id}}">{{ puzzle.date }} - {{ puzzle.answer }} - <a href="{{ puzzle.url }}">link</a></li>
-            <input type="button" value="Remove" onclick="removeItem({{puzzle.id}})" id="{{puzzle.id}}">
-        {% endfor %}
+            {% for puzzle in queued_puzzles %}
+                <li id="{{puzzle.id}}">{{ puzzle.date }} - {{ puzzle.answer }} - <a href="{{ puzzle.cover_url }}">Cover</a></li>
+                <input type="button" value="Remove" onclick="removeItem({{puzzle.id}})" id="{{puzzle.id}}">
+            {% endfor %}
         </ul>
     {% endif %}
 
-    
+
     <h2>Add New Puzzle</h2>
     <form action="{{ url_for('control_panel') }}" method="POST">
         <label for="date">Date:</label>
@@ -30,14 +30,15 @@
 
         <label for="answer">Answer:</label>
         <input type="text" name="answer" id="answer" required>
-        
+
         <select id="album-options" style="visibility: hidden; max-width: 20rem;"></select>
 
         <button type="submit">Confirm Album</button>
 
         <br><br>
         <img id="album-cover" src="" style="width: auto; height: 500px; visibility: hidden;">
-        <input type="hidden" name="link" id="link">
+        <input type="hidden" name="cover-url" id="cover-url">
+        <input type="hidden" name="album-url" id="album-url">
     </form>
 
     <script src="/static/js/control_panel.js"></script>

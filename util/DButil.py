@@ -36,7 +36,8 @@ with conn.cursor() as cursor:
             id SERIAL PRIMARY KEY,
             date DATE NOT NULL UNIQUE,
             answer TEXT NOT NULL,
-            url TEXT NOT NULL
+            cover_url TEXT NOT NULL,
+            album_url TEXT NOT NULL
         )
         """
     )

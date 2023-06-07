@@ -16,25 +16,38 @@ const info_orig_overlay = info_overlay.className
 const info_close_overlay = document.querySelector("#info-close-button")
 const info_play_now = document.querySelector("#info-play-now-button")
 
+const ans = document.querySelector(".confidential")
+
 const contact = document.getElementById("contact")
 const contact_overlay = document.querySelector("#contact-overlay")
 const contact_orig_overlay = contact_overlay.className
 const contact_close_overlay = document.querySelector("#contact-close-button")
+const contact_send_message = document.getElementById("contact-send-message")
+
+const gameOver = document.getElementById("gameOver")
+const gameStatus = document.getElementById("status")
+const albumInfo = document.getElementById("albumInfo")
+const album_url = ans.dataset.album_url
+
+let timeLeft = window.timeLeft
+const countdownElement = document.getElementById("countdown")
+const nextPuzzle = document.getElementById("nextPuzzle")
 
 
 // Game variables
 let countdown
 let imaged
 let remainingTime = 5
+let defaultRemainingTime = remainingTime
 let sampleSize = (remainingTime * 100) - 100
 let defaultSampleSize = sampleSize
 let pixelate = Math.trunc(sampleSize / (remainingTime * 10))
 let guesses = 3
+let defaultGuesses = guesses
 let started = false
-const ans = document.querySelector(".ans")
-const correctAnswer = ans.id
-ans.remove()
+const correctAnswer = ans.dataset.answer
 const options = window.puzzles
+ans.remove()
 
 
 // Canvas variables
@@ -284,15 +297,40 @@ function gameFinish() {
   mainButton.style.display = "none"
   guessSection.style.display = "none"
   timerElement.style.display = "none"
+  gameOver.style.display = "block"
+  nextPuzzle.style.display = "block"
 }
 
 function showFailScreen() {
+  gameStatus.innerHTML = "Try Again Tomorrow!"
+  gameStatus.style.color = "red"
+  albumInfo.innerHTML = `Today's album was <a id="album_url" href="${album_url}" target="_blank">${correctAnswer}</a>`
   gameFinish()
 }
 
 function showWinScreen() {
+  albumInfo.innerHTML = `You correctly guessed <a id="album_url" href="${album_url}" target="_blank">${correctAnswer}</a> in ${(defaultRemainingTime - remainingTime) + 1} ${((defaultRemainingTime - remainingTime) + 1) === 1 ? 'second' : 'seconds'} using ${(defaultGuesses - guesses) + 1} ${(defaultGuesses - guesses) + 1 === 1 ? 'guess' : 'guesses'}`;
   gameFinish()
 }
+
+
+function formatTime(seconds) {
+  const hours = Math.floor(seconds / 3600);
+  const minutes = Math.floor((seconds % 3600) / 60);
+  const remainingSeconds = seconds % 60;
+  return [hours, minutes, remainingSeconds]
+    .map(v => v < 10 ? "0" + v : v)
+    .join(":");
+}
+
+const dayCountdown = setInterval(() => {
+  timeLeft -= 1;
+  countdownElement.textContent = formatTime(timeLeft);
+  if (timeLeft === 0) {
+    clearInterval(dayCountdown);
+  }
+}, 1000);
+
 
 // Load the image and pixelate the canvas
 const image = new Image()

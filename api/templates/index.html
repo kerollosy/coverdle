@@ -4,7 +4,6 @@
 <head>
     <link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet'>
     <link href='https://fonts.googleapis.com/css?family=Rubik:900' rel='stylesheet'>
-    <link href="https://fonts.googleapis.com/css2?family=Open+Sans" rel="stylesheet">
     <link href="/static/favicon.svg" rel="icon" type="image/svg+xml">
     <link href="/static/css/index.css" rel="stylesheet" type="text/css">
     <meta charset="UTF-8">
@@ -101,17 +100,31 @@
 
     <div id="main">
         <img id="album-cover" src="{{ cover_src }}">
-        <div class="ans" id="{{ answer }}"></div>
+        <div class="confidential" data-answer="{{ answer }}" data-album_url="{{ album_url }}"></div>
         <p id="timer">5</p>
         <div id="guessSection">
             <input id="guessInput" type="text" autocomplete="off" , list="albums">
             <button id="submitGuessButton">Submit</button>
             <button id="idk">I Don't Know</button>
         </div>
+        <div id="gameOver">
+            <br>
+            <span id="status">Success!</span>
+            <br />
+            <span id="albumInfo"></span>
+        </div>
+        <div id="nextPuzzle">
+            <br>
+            <span id="guessAnother">Guess another album in</span>
+            <div id="countdown">
+                
+            </div>
+        </div>
         <button id="mainButton">Start</button>
     </div>
     <script>
         window.puzzles = {{ puzzles | tojson }};
+        window.timeLeft = {{ timeLeft }};
     </script>
     <script src="/static/js/index.js"></script>
 </body>

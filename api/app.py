@@ -6,7 +6,7 @@ import redis
 from flask import Flask, render_template, request, jsonify, redirect, url_for, abort, session
 from flask_limiter import Limiter
 from flask_limiter.util import get_remote_address
-from datetime import datetime
+from datetime import datetime, timedelta
 from util.DButil import create_connection, get_connection, release_connection
 from util.puzzleUtil import album_list
 from psycopg2.errors import UniqueViolation
@@ -15,11 +15,11 @@ from psycopg2.errors import UniqueViolation
 """
 TODO 
 + Save cookies till the next day to prevent players from replaying the same day
-+ Make the contact button send an email to me
 + Confirm that you want to know the correct answer when clicking on the idk button
 + Make the alerts() popups
-+ View the correct answer and a timer after the user finishes
-+ View the statistics (finished within x seconds and with y guesses left)
+- Make the contact button send an email to me
+- View the correct answer and a timer after the user finishes
+- View the statistics (finished within x seconds and with y guesses left)
 - Show the recommendations correctly
 - Make it "daily"
 """
@@ -37,9 +37,10 @@ connection_pool = create_connection(os.environ.get("POSTGRES_HOST"), os.environ.
                                     os.environ.get("POSTGRES_USER"), os.environ.get("POSTGRES_PASSWORD"))
 
 
-default = {"cover": "https://i.imgur.com/1WWcfWL.jpeg", "answer": "blond"}
+default = {"cover": "https://i.imgur.com/1WWcfWL.jpeg", "answer": "blonde",
+           "album": "https://music.apple.com/us/album/blonde/1146195596"}
 cache = {"date": None,
-         "cover_src": default["cover"], "answer": default["answer"], "puzzles": []}
+         "cover_src": default["cover"], "answer": default["answer"], "puzzles": [], "album_url": default["album"]}
 
 
 def update_cache():
@@ -48,14 +49,17 @@ def update_cache():
     if result is not None:
         answer = result[0]
         cover_src = result[1]
+        album_url = result[2]
     else:
         # Default cover source if no matching row found
-        cover_src = default["cover"]
         answer = default["answer"]
+        cover_src = default["cover"]
+        album_url = default["album"]
 
     cache["date"] = current_time
     cache["cover_src"] = cover_src
     cache["answer"] = answer
+    cache["album_url"] = album_url
     cache["puzzles"] = load_puzzles()
 
 
@@ -63,7 +67,7 @@ def load_puzzles():
     conn = get_connection(connection_pool)
     with conn.cursor() as cursor:
         cursor.execute(
-            "SELECT id, date, answer, url FROM puzzles ORDER BY date ASC")
+            "SELECT id, date, answer, cover_url FROM puzzles ORDER BY date ASC")
         rows = cursor.fetchall()
 
     puzzles = []
@@ -72,7 +76,7 @@ def load_puzzles():
             'id': row[0],
             'date': row[1],
             'answer': row[2],
-            'url': row[3]
+            'cover_url': row[3]
         }
         puzzles.append(puzzle)
 
@@ -80,23 +84,25 @@ def load_puzzles():
     return puzzles
 
 
-def save_puzzle(date, answer, url):
-    if not url:
+def save_puzzle(date, answer, cover_url, album_url):
+    if not cover_url:
         res = requests.get(
             f"https://itunes.apple.com/search?term={urllib.parse.quote(answer)}&country=US&media=music&entity=album&limit=1")
         data = res.json()
 
         if data["resultCount"] > 0:
             result = data["results"][0]
-            url = result["artworkUrl100"].replace("100x100", "1000x1000")
+            cover_url = result["artworkUrl100"].replace("100x100", "1000x1000")
         else:
-            url = default["cover"]
+            cover_url = default["cover"]
+            album_url = default["album"]
+            answer = default["answer"]
 
     conn = get_connection(connection_pool)
 
     with conn.cursor() as cursor:
         cursor.execute(
-            "INSERT INTO puzzles (date, answer, url) VALUES (%s, %s, %s)", (date, answer, url))
+            "INSERT INTO puzzles (date, answer, cover_url, album_url) VALUES (%s, %s, %s, %s)", (date, answer, cover_url, album_url))
         conn.commit()
     release_connection(connection_pool, conn)
 
@@ -117,7 +123,7 @@ def load_puzzles_last(time):
     conn = get_connection(connection_pool)
     with conn.cursor() as cursor:
         cursor.execute(
-            "SELECT answer, url FROM puzzles WHERE date <= %s ORDER BY date DESC LIMIT 1", (time,))
+            "SELECT answer, cover_url, album_url FROM puzzles WHERE date <= %s ORDER BY date DESC LIMIT 1", (time,))
         last = cursor.fetchone()
 
     release_connection(connection_pool, conn)
@@ -144,6 +150,15 @@ def load_emails():
     return emails
 
 
+def time_until_midnight():
+    now = datetime.now(tz)
+    tomorrow = now + timedelta(days=1)
+    midnight = tz.localize(datetime(
+        year=tomorrow.year, month=tomorrow.month, day=tomorrow.day, hour=0, minute=0, second=0))
+    time_left = midnight - now
+    return time_left.seconds
+
+
 @app.route('/')
 def home():
     current_time = datetime.now(tz).strftime("%Y-%m-%d")
@@ -151,41 +166,9 @@ def home():
         update_cache()
 
     cover_src = cache["cover_src"]
-    answer = cache["answer"].title().strip()
-    return render_template('index.html', cover_src=cover_src, answer=answer, puzzles=album_list)
-
-
-def authenticate(username, password):
-    if username == "admin" and password == "password":
-        return True
-    return False
-
-
-def authenticate_required(f):
-    def decorated_function(*args, **kwargs):
-        auth = request.authorization
-        # Check if the request is coming from the server IP address
-        if request.remote_addr == '127.0.0.1' or request.remote_addr == 'localhost':
-            return f(*args, **kwargs)  # Allow access without authentication
-        if not auth or not authenticate(auth.username, auth.password):
-            abort(401)  # Unauthorized
-        return f(*args, **kwargs)
-    return decorated_function
-
-
-def get_remaining_time(year, month, day, hour, minute):
-    now = datetime.now(tz)
-    target_date = datetime(year, month, day, hour, minute)
-    remaining_time = target_date - now
-    # Ensure the remaining time is not negative
-    return max(remaining_time.total_seconds(), 0)
-
-
-# Endpoint to get the remaining time
-@app.route('/remaining_time')
-@authenticate_required
-def remaining_time():
-    return jsonify({'time': int(get_remaining_time(2023, 5, 26, 8+12, 51))})
+    answer = cache["answer"]
+    album_url = cache["album_url"]
+    return render_template('index.html', cover_src=cover_src, answer=answer, puzzles=album_list, album_url=album_url, timeLeft=time_until_midnight())
 
 
 @app.route('/remove', methods=['POST'])
@@ -227,10 +210,11 @@ def control_panel():
     if request.method == 'POST':
         date = request.form['date']
         answer = request.form['answer']
-        url = request.form['link']
+        cover_url = request.form['cover-url']
+        album_url = request.form['album-url']
 
         try:
-            save_puzzle(date, answer, url)
+            save_puzzle(date, answer, cover_url, album_url)
             update_cache()
         except UniqueViolation:
             return 'Duplicate date', 400

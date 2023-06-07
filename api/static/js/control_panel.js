@@ -29,8 +29,10 @@ async function updateAlbumOptions() {
     albumOptions.innerHTML = '';
     data.results.forEach(result => {
       const option = document.createElement('option');
-      option.value = result.artworkUrl100.replace('100x100', '1000x1000');
       option.text = `${result.collectionName} by ${result.artistName}`;
+      option.dataset.coverUrl = result.artworkUrl100.replace('100x100', '1000x1000');
+      option.dataset.albumName = result.collectionName;
+      option.dataset.collectionViewUrl = result.collectionViewUrl;
       albumOptions.appendChild(option);
     });
     updateAlbumCover();
@@ -38,15 +40,20 @@ async function updateAlbumOptions() {
 }
 
 function updateAlbumCover() {
+  const answer = document.getElementById('answer');
   const albumCover = document.getElementById('album-cover');
   const albumOptions = document.getElementById('album-options');
-  const link = document.getElementById('link');
+  const cover_url = document.getElementById('cover-url');
+  const selectedOption = albumOptions.options[albumOptions.selectedIndex];
+  const album_url = document.getElementById('album-url');
+
   albumCover.style.visibility = "visible"
   albumOptions.style.visibility = "visible"
-  albumCover.src = albumOptions.value;
-  link.value = albumOptions.value;
+  albumCover.src = selectedOption.dataset.coverUrl;
+  cover_url.value = selectedOption.dataset.coverUrl;
+  album_url.value = selectedOption.dataset.collectionViewUrl;
+  answer.value = selectedOption.dataset.albumName
 }
 
-
-document.getElementById('album-options').addEventListener('change', updateAlbumCover);
 document.getElementById('answer').addEventListener('change', updateAlbumOptions);
+document.getElementById('album-options').addEventListener('change', updateAlbumCover);
