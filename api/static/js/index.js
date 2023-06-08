@@ -60,6 +60,54 @@ canvas.height = height
 const context = canvas.getContext("2d", { willReadFrequently: true })
 
 
+function setCookie(name, value) {
+  const now = new Date();
+  const currentEgyptTime = new Date(now.toLocaleString("en-US", { timeZone: "Africa/Cairo" }));
+  const nextEgyptTime = new Date(currentEgyptTime);
+
+  nextEgyptTime.setHours(23, 59, 59, 59); // Set the time to 11:59 AM
+
+  // If the current time is after the desired time, add one day to the expiration date
+  if (currentEgyptTime > nextEgyptTime) {
+    nextEgyptTime.setDate(currentEgyptTime.getDate() + 1);
+  }
+
+  // Calculate the difference between Egypt time and UTC time
+  const offset = currentEgyptTime.getTime() - now.getTime();
+
+  // Subtract the offset from the nextEgyptTime to get the corresponding UTC time
+  const utcTime = new Date(nextEgyptTime.getTime() - offset);
+  const expires = `expires=${utcTime.toUTCString()}`;
+  document.cookie = `${name}=${value};${expires};path=/`; return expires;
+}
+
+function getCookie(cookieName) {
+  const name = cookieName + "=";
+  const decodedCookie = decodeURIComponent(document.cookie);
+  const cookieArray = decodedCookie.split(';');
+
+  for (let i = 0; i < cookieArray.length; i++) {
+    let cookie = cookieArray[i].trim();
+
+    if (cookie.indexOf(name) === 0) {
+      return cookie.substring(name.length, cookie.length);
+    }
+  }
+
+  return null;
+}
+
+function handleCookie() {
+  cookieValue = getCookie("played")
+  console.log(cookieValue)
+  if (cookieValue) {
+    if (cookieValue == "won") {
+      showWinScreen()
+    } else if (cookieValue == "lost") {
+      showFailScreen()
+    }
+  }
+}
 
 // Append the canvas to the main element
 mainElement.appendChild(canvas)
@@ -103,30 +151,6 @@ guessInput.addEventListener('input', function () {
         datalist.appendChild(option_element)
       }
     }
-    /* CODE FOR USING API (SLOWER)
-    $.get("/recommendations", { term: val }, function (data) {
-      closeAllLists()
-      console.log(data)
-      if (data.length) {
-        a = document.createElement("DIV");
-        a.setAttribute("id", this.id + "autocomplete-list");
-        a.setAttribute("class", "autocomplete-items");
-        guessInput.parentNode.appendChild(a);
-        for (i = 0; i < data.length; i++) {
-          b = document.createElement("DIV");
-          b.innerHTML = data[i];
-          // b.innerHTML += "<input type='hidden' value='" + data[i] + "'>";
-          b.addEventListener("click", function (e) {
-            guessInput.value = this.innerHTML;
-            closeAllLists();
-          });
-          a.appendChild(b);
-        }
-      } else {
-        closeAllLists()
-      }
-    })
-    */
   } else {
     removeDataLists()
   }
@@ -302,6 +326,7 @@ function gameFinish() {
 }
 
 function showFailScreen() {
+  setCookie("played", "lost")
   gameStatus.innerHTML = "Try Again Tomorrow!"
   gameStatus.style.color = "red"
   albumInfo.innerHTML = `Today's album was <a id="album_url" href="${album_url}" target="_blank">${correctAnswer}</a>`
@@ -309,6 +334,7 @@ function showFailScreen() {
 }
 
 function showWinScreen() {
+  setCookie("played", "won")
   albumInfo.innerHTML = `You correctly guessed <a id="album_url" href="${album_url}" target="_blank">${correctAnswer}</a> in ${(defaultRemainingTime - remainingTime) + 1} ${((defaultRemainingTime - remainingTime) + 1) === 1 ? 'second' : 'seconds'} using ${(defaultGuesses - guesses) + 1} ${(defaultGuesses - guesses) + 1 === 1 ? 'guess' : 'guesses'}`;
   gameFinish()
 }
@@ -322,6 +348,7 @@ function formatTime(seconds) {
     .map(v => v < 10 ? "0" + v : v)
     .join(":");
 }
+countdownElement.textContent = formatTime(timeLeft);
 
 const dayCountdown = setInterval(() => {
   timeLeft -= 1;
@@ -359,6 +386,7 @@ image.onload = function () {
       context.fillRect(x, y, sampleSize, sampleSize)
     }
   }
+  handleCookie()
 }
 
 image.onerror = function () {
