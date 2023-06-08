@@ -14,9 +14,9 @@ from psycopg2.errors import UniqueViolation
 
 """
 TODO 
-+ Save cookies till the next day to prevent players from replaying the same day
 + Confirm that you want to know the correct answer when clicking on the idk button
 + Make the alerts() popups
+- Save cookies till the next day to prevent players from replaying the same day
 - Make the contact button send an email to me
 - View the correct answer and a timer after the user finishes
 - View the statistics (finished within x seconds and with y guesses left)

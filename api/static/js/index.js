@@ -300,7 +300,7 @@ function handleSubmitGuess() {
 // Handle click on the "I don't know" button
 function handleIdkButtonClick() {
   showFailScreen()
-  alert(`The correct answer was ${correctAnswer}`)
+  // alert(`The correct answer was ${correctAnswer}`)
   // if (guesses == 0) {
   //   alert("Game over.")
   //   showFailScreen()
