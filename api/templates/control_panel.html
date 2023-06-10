@@ -27,6 +27,9 @@
     <form action="{{ url_for('control_panel') }}" method="POST">
         <label for="date">Date:</label>
         <input type="date" name="date" id="date" required>
+        
+        <label for="autocomplete">Autocomplete:</label>
+        <input type="checkbox" name="autocomplete" id="autocomplete">
 
         <label for="answer">Answer:</label>
         <input type="text" name="answer" id="answer" required>
@@ -41,7 +44,7 @@
         <input type="hidden" name="album-url" id="album-url">
     </form>
 
-    <script src="/static/js/control_panel.js"></script>
+    <script src="/static/js/control_panel.js?v=2.0"></script>
 </body>
 
 </html>

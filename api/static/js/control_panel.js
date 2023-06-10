@@ -46,13 +46,16 @@ function updateAlbumCover() {
   const cover_url = document.getElementById('cover-url');
   const selectedOption = albumOptions.options[albumOptions.selectedIndex];
   const album_url = document.getElementById('album-url');
+  const autocomplete = document.getElementById('autocomplete')
 
   albumCover.style.visibility = "visible"
   albumOptions.style.visibility = "visible"
   albumCover.src = selectedOption.dataset.coverUrl;
   cover_url.value = selectedOption.dataset.coverUrl;
   album_url.value = selectedOption.dataset.collectionViewUrl;
-  answer.value = selectedOption.dataset.albumName
+  if(autocomplete.checked) {
+    answer.value = selectedOption.dataset.albumName
+  }
 }
 
 document.getElementById('answer').addEventListener('change', updateAlbumOptions);
