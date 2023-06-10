@@ -1,62 +1,58 @@
 function removeItem(itemId) {
-  console.log(itemId)
-  fetch('/remove', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
+  $.ajax({
+    url: "/remove",
+    method: "POST",
+    contentType: "application/json",
+    data: JSON.stringify({ id: itemId }),
+    success: function (data) {
+      $(`#${itemId}`).remove()
     },
-    body: JSON.stringify({ id: itemId })
-  })
-    .then(response => response.json())
-    .then(data => {
-      console.log(data.message);
-      document.getElementById(itemId).remove();
-      document.getElementById(itemId).remove();
-    })
-    .catch(error => {
-      console.error('Error:', error);
-    });
+    error: function (error) {
+      console.error("Error:", error);
+    }
+  });
 }
 
-
 async function updateAlbumOptions() {
-  const answer = document.getElementById('answer').value;
-  const res = await fetch(`https://itunes.apple.com/search?term=${encodeURIComponent(answer)}&country=US&media=music&entity=album&limit=10`);
-  const data = await res.json();
+  const answer = $("#answer").val();
+  const res = await $.getJSON(`https://itunes.apple.com/search?term=${encodeURIComponent(answer)}&country=US&media=music&entity=album&limit=10`);
+  const data = res;
 
   if (data.resultCount > 0) {
-    const albumOptions = document.getElementById('album-options');
-    albumOptions.innerHTML = '';
+    const albumOptions = $("#album-options");
+    albumOptions.empty();
     data.results.forEach(result => {
-      const option = document.createElement('option');
-      option.text = `${result.collectionName} by ${result.artistName}`;
-      option.dataset.coverUrl = result.artworkUrl100.replace('100x100', '1000x1000');
-      option.dataset.albumName = result.collectionName;
-      option.dataset.collectionViewUrl = result.collectionViewUrl;
-      albumOptions.appendChild(option);
+      const option = $("<option></option>")
+        .text(`${result.collectionName} by ${result.artistName}`)
+        .data({
+          coverUrl: result.artworkUrl100.replace("100x100", "1000x1000"),
+          albumName: result.collectionName,
+          collectionViewUrl: result.collectionViewUrl
+        });
+      albumOptions.append(option);
     });
     updateAlbumCover();
   }
 }
 
 function updateAlbumCover() {
-  const answer = document.getElementById('answer');
-  const albumCover = document.getElementById('album-cover');
-  const albumOptions = document.getElementById('album-options');
-  const cover_url = document.getElementById('cover-url');
-  const selectedOption = albumOptions.options[albumOptions.selectedIndex];
-  const album_url = document.getElementById('album-url');
-  const autocomplete = document.getElementById('autocomplete')
+  const answer = $("#answer");
+  const albumCover = $("#album-cover");
+  const albumOptions = $("#album-options");
+  const cover_url = $("#cover-url");
+  const selectedOption = albumOptions.find("option:selected");
+  const album_url = $("#album-url");
+  const autocomplete = $("#autocomplete");
 
-  albumCover.style.visibility = "visible"
-  albumOptions.style.visibility = "visible"
-  albumCover.src = selectedOption.dataset.coverUrl;
-  cover_url.value = selectedOption.dataset.coverUrl;
-  album_url.value = selectedOption.dataset.collectionViewUrl;
-  if(autocomplete.checked) {
-    answer.value = selectedOption.dataset.albumName
+  albumCover.css("visibility", "visible");
+  albumOptions.css("visibility", "visible");
+  albumCover.attr("src", selectedOption.data("coverUrl"));
+  cover_url.val(selectedOption.data("coverUrl"));
+  album_url.val(selectedOption.data("collectionViewUrl"));
+  if (autocomplete.prop("checked")) {
+    answer.val(selectedOption.data("albumName"));
   }
 }
 
-document.getElementById('answer').addEventListener('change', updateAlbumOptions);
-document.getElementById('album-options').addEventListener('change', updateAlbumCover);
+$("#answer").on("change", updateAlbumOptions);
+$("#album-options").on("change", updateAlbumCover);

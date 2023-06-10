@@ -6,6 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="/static/favicon.svg" rel="icon" type="image/svg+xml">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
     <title>Control Panel</title>
 </head>
 
@@ -16,8 +17,10 @@
         <h2>Queued Puzzles</h2>
         <ul>
             {% for puzzle in queued_puzzles %}
-                <li id="{{puzzle.id}}">{{ puzzle.date }} - {{ puzzle.answer }} - <a href="{{ puzzle.cover_url }}">Cover</a></li>
-                <input type="button" value="Remove" onclick="removeItem({{puzzle.id}})" id="{{puzzle.id}}">
+                <div id="{{puzzle.id}}">
+                    <li>{{ puzzle.date }} - {{ puzzle.answer }} - <a href="{{ puzzle.cover_url }}">Cover</a></li>
+                    <input type="button" value="Remove" onclick="removeItem({{puzzle.id}})">
+                </div>
             {% endfor %}
         </ul>
     {% endif %}
@@ -27,7 +30,7 @@
     <form action="{{ url_for('control_panel') }}" method="POST">
         <label for="date">Date:</label>
         <input type="date" name="date" id="date" required>
-        
+
         <label for="autocomplete">Autocomplete:</label>
         <input type="checkbox" name="autocomplete" id="autocomplete">
 
@@ -44,7 +47,7 @@
         <input type="hidden" name="album-url" id="album-url">
     </form>
 
-    <script src="/static/js/control_panel.js?v=2.0"></script>
+    <script src="/static/js/control_panel.js?v=3.0"></script>
 </body>
 
 </html>
