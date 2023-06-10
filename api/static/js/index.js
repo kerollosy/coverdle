@@ -16,7 +16,7 @@ const info_orig_overlay = info_overlay.className
 const info_close_overlay = document.querySelector("#info-close-button")
 const info_play_now = document.querySelector("#info-play-now-button")
 
-const ans = document.querySelector(".confidential")
+const gameDetails = document.querySelector(".game-details")
 
 const contact = document.getElementById("contact")
 const contact_overlay = document.querySelector("#contact-overlay")
@@ -27,9 +27,9 @@ const contact_send_message = document.getElementById("contact-send-message")
 const gameOver = document.getElementById("gameOver")
 const gameStatus = document.getElementById("status")
 const albumInfo = document.getElementById("albumInfo")
-const album_url = ans.dataset.album_url
+const album_url = gameDetails.dataset.album_url
 
-let timeLeft = window.timeLeft
+let timeLeft = gameDetails.dataset.time_left
 const countdownElement = document.getElementById("countdown")
 const nextPuzzle = document.getElementById("nextPuzzle")
 
@@ -45,9 +45,9 @@ let pixelate = Math.trunc(sampleSize / (remainingTime * 10))
 let guesses = 3
 let defaultGuesses = guesses
 let started = false
-const correctAnswer = ans.dataset.answer
+const correctAnswer = gameDetails.dataset.answer
 const options = window.puzzles
-ans.remove()
+gameDetails.remove()
 
 
 // Canvas variables
@@ -60,51 +60,22 @@ canvas.height = height
 const context = canvas.getContext("2d", { willReadFrequently: true })
 
 
-function setCookie(name, value) {
-  const now = new Date();
-  const currentEgyptTime = new Date(now.toLocaleString("en-US", { timeZone: "Africa/Cairo" }));
-  const nextEgyptTime = new Date(currentEgyptTime);
+const now = new Date();
+const currentEgyptTime = new Date(now.toLocaleString("en-US", { timeZone: "Africa/Cairo" }));
 
-  nextEgyptTime.setHours(23, 59, 59, 59); // Set the time to 11:59 AM
+function handlePlayStatus() {
+  const playedStatus = localStorage.getItem("played")
 
-  // If the current time is after the desired time, add one day to the expiration date
-  if (currentEgyptTime > nextEgyptTime) {
-    nextEgyptTime.setDate(currentEgyptTime.getDate() + 1);
-  }
+  if (playedStatus) {
+    playResult = localStorage.getItem("played").split(" ")[0]
+    playDate = localStorage.getItem("played").split(" ")[1]
 
-  // Calculate the difference between Egypt time and UTC time
-  const offset = currentEgyptTime.getTime() - now.getTime();
-
-  // Subtract the offset from the nextEgyptTime to get the corresponding UTC time
-  const utcTime = new Date(nextEgyptTime.getTime() - offset);
-  const expires = `expires=${utcTime.toUTCString()}`;
-  document.cookie = `${name}=${value};${expires};path=/`; return expires;
-}
-
-function getCookie(cookieName) {
-  const name = cookieName + "=";
-  const decodedCookie = decodeURIComponent(document.cookie);
-  const cookieArray = decodedCookie.split(';');
-
-  for (let i = 0; i < cookieArray.length; i++) {
-    let cookie = cookieArray[i].trim();
-
-    if (cookie.indexOf(name) === 0) {
-      return cookie.substring(name.length, cookie.length);
-    }
-  }
-
-  return null;
-}
-
-function handleCookie() {
-  cookieValue = getCookie("played")
-  console.log(cookieValue)
-  if (cookieValue) {
-    if (cookieValue == "won") {
-      showWinScreen()
-    } else if (cookieValue == "lost") {
-      showFailScreen()
+    if (playDate == `${gameDetails.dataset.current_date}`) {
+      if (playResult == "won") {
+        showWinScreen()
+      } else if (playResult == "lost") {
+        showFailScreen()
+      }
     }
   }
 }
@@ -326,7 +297,7 @@ function gameFinish() {
 }
 
 function showFailScreen() {
-  setCookie("played", "lost")
+  localStorage.setItem("played", `lost ${gameDetails.dataset.current_date}`);
   gameStatus.innerHTML = "Try Again Tomorrow!"
   gameStatus.style.color = "red"
   albumInfo.innerHTML = `Today's album was <a id="album_url" href="${album_url}" target="_blank">${correctAnswer}</a>`
@@ -334,7 +305,7 @@ function showFailScreen() {
 }
 
 function showWinScreen() {
-  setCookie("played", "won")
+  localStorage.setItem("played", `won ${gameDetails.dataset.current_date}`);
   albumInfo.innerHTML = `You correctly guessed <a id="album_url" href="${album_url}" target="_blank">${correctAnswer}</a> in ${(defaultRemainingTime - remainingTime) + 1} ${((defaultRemainingTime - remainingTime) + 1) === 1 ? 'second' : 'seconds'} using ${(defaultGuesses - guesses) + 1} ${(defaultGuesses - guesses) + 1 === 1 ? 'guess' : 'guesses'}`;
   gameFinish()
 }
@@ -386,7 +357,7 @@ image.onload = function () {
       context.fillRect(x, y, sampleSize, sampleSize)
     }
   }
-  handleCookie()
+  handlePlayStatus()
 }
 
 image.onerror = function () {

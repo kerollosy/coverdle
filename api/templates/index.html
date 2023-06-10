@@ -100,7 +100,7 @@
 
     <div id="main">
         <img id="album-cover" src="{{ cover_src }}">
-        <div class="confidential" data-answer="{{ answer }}" data-album_url="{{ album_url }}"></div>
+        <div class="game-details" data-answer="{{ answer }}" data-album_url="{{ album_url }}" data-current_date="{{ current_date }}" data-time_left="{{ timeLeft }}"></div>
         <p id="timer">5</p>
         <div id="guessSection">
             <input id="guessInput" type="text" autocomplete="off" , list="albums">
@@ -124,9 +124,8 @@
     </div>
     <script>
         window.puzzles = {{ puzzles | tojson }};
-        window.timeLeft = {{ timeLeft }};
     </script>
-    <script src="/static/js/index.js?v=2.1"></script>
+    <script src="/static/js/index.js?v=2.2"></script>
 </body>
 
 </html>

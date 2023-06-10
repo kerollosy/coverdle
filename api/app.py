@@ -168,7 +168,8 @@ def home():
     cover_src = cache["cover_src"]
     answer = cache["answer"]
     album_url = cache["album_url"]
-    return render_template('index.html', cover_src=cover_src, answer=answer, puzzles=album_list, album_url=album_url, timeLeft=time_until_midnight())
+    print(album_url)
+    return render_template('index.html', cover_src=cover_src, answer=answer, puzzles=album_list, album_url=album_url, timeLeft=time_until_midnight(), current_date=current_time)
 
 
 @app.route('/remove', methods=['POST'])
