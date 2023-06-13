@@ -38,9 +38,6 @@ $(document).ready(function () {
   let imaged;
   let remainingTime = 5;
   let defaultRemainingTime = remainingTime;
-  let sampleSize = (remainingTime * 100) - 100;
-  let defaultSampleSize = sampleSize;
-  let pixelate = Math.trunc(sampleSize / (remainingTime * 10));
   let guesses = 3;
   let defaultGuesses = guesses;
   let started = false;
@@ -52,9 +49,9 @@ $(document).ready(function () {
   // Canvas variables
   let width;
   let height;
-  let pixelData;
-  let canvas = $('<canvas></canvas>');
-  const context = canvas[0].getContext("2d", { willReadFrequently: true });
+  let pixel_state = 0.4
+  let canvas = document.createElement("canvas")
+  const context = canvas.getContext("2d", { willReadFrequently: true });
 
 
   function handlePlayStatus() {
@@ -123,17 +120,21 @@ $(document).ready(function () {
   }
 
   function depixel() {
-    sampleSize -= pixelate;
-    if (sampleSize > defaultSampleSize / (defaultSampleSize + 100) / 100) {
-      for (let y = 0; y < height; y += sampleSize) {
-        for (let x = 0; x < width; x += sampleSize) {
-          const pixelIndex = (x + y * width) * 4;
-          const pixelColor = `rgba(${pixelData[pixelIndex]}, ${pixelData[pixelIndex + 1]}, ${pixelData[pixelIndex + 2]}, ${pixelData[pixelIndex + 3]})`;
-          context.fillStyle = pixelColor;
-          context.fillRect(x, y, sampleSize, sampleSize);
-        }
-      }
-    }
+    pixel_state += width / Math.pow(2, 9) / 14
+    // pixel_state += width / (width * 9);
+    var size = pixel_state / 100
+    size = size.toFixed(3)
+    var w = canvas.width * size
+    var h = canvas.height * size
+
+    context.drawImage(image, 0, 0, w, h);
+
+    context.msImageSmoothingEnabled = false;
+    context.mozImageSmoothingEnabled = false;
+    context.webkitImageSmoothingEnabled = false;
+    context.imageSmoothingEnabled = false;
+
+    context.drawImage(canvas, 0, 0, w, h, 0, 0, canvas.width, canvas.height)
   }
 
   function startCountdown() {
@@ -223,17 +224,17 @@ $(document).ready(function () {
   }
 
   function showFailScreen() {
-    localStorage.setItem("played", `lost ${gameDetails.data("current_date")}`);
     gameStatus.html("Try Again Tomorrow!");
     gameStatus.css("color", "red");
     albumInfo.html(`Today's album was <a id="album_url" href="${album_url}" target="_blank">${correctAnswer}</a>`);
     gameFinish();
+    localStorage.setItem("played", `lost ${gameDetails.data("current_date")}`);
   }
 
   function showWinScreen() {
-    localStorage.setItem("played", `won ${gameDetails.data("current_date")}`);
     albumInfo.html(`You correctly guessed <a id="album_url" href="${album_url}" target="_blank">${correctAnswer}</a> in ${(defaultRemainingTime - remainingTime) + 1} ${(defaultRemainingTime - remainingTime) + 1 === 1 ? 'second' : 'seconds'} using ${(defaultGuesses - guesses) + 1} ${(defaultGuesses - guesses) + 1 === 1 ? 'guess' : 'guesses'}`);
     gameFinish();
+    localStorage.setItem("played", `won ${gameDetails.data("current_date")}`);
   }
 
   function formatTime(seconds) {
@@ -268,19 +269,20 @@ $(document).ready(function () {
     mainElement.css("display", "flex");
     loading_screen.hide();
 
-    canvas.attr("width", width);
-    canvas.attr("height", height);
-    context.drawImage(image, 0, 0);
+    canvas.setAttribute("width", width);
+    canvas.setAttribute("height", height);
+    var size = pixel_state / 100
+    var w = canvas.width * size
+    var h = canvas.height * size
 
-    pixelData = context.getImageData(0, 0, width, height).data;
-    for (let y = 0; y < height; y += sampleSize) {
-      for (let x = 0; x < width; x += sampleSize) {
-        const pixelIndex = (x + (y * width)) * 4;
-        const pixelColor = `rgba(${pixelData[pixelIndex]}, ${pixelData[pixelIndex + 1]}, ${pixelData[pixelIndex + 2]}, ${pixelData[pixelIndex + 3]})`;
-        context.fillStyle = pixelColor;
-        context.fillRect(x, y, sampleSize, sampleSize);
-      }
-    }
+    context.drawImage(image, 0, 0, w, h);
+
+    context.msImageSmoothingEnabled = false;
+    context.mozImageSmoothingEnabled = false;
+    context.webkitImageSmoothingEnabled = false;
+    context.imageSmoothingEnabled = false;
+
+    context.drawImage(canvas, 0, 0, w, h, 0, 0, canvas.width, canvas.height)
     handlePlayStatus();
   }
 
