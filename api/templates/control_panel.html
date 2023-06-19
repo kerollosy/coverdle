@@ -12,6 +12,26 @@
 
 <body>
     <h1>Control Panel</h1>
+    <h2>Add New Puzzle</h2>
+    <form action="{{ url_for('control_panel') }}" method="POST">
+        <label for="date">Date:</label>
+        <input type="date" name="date" id="date" required>
+    
+        <label for="autocomplete">Autocomplete:</label>
+        <input type="checkbox" name="autocomplete" id="autocomplete">
+    
+        <label for="answer">Answer:</label>
+        <input type="text" name="answer" id="answer" required>
+    
+        <select id="album-options" style="visibility: hidden; max-width: 20rem;"></select>
+    
+        <button type="submit">Confirm Album</button>
+    
+        <br><br>
+        <img id="album-cover" src="" style="width: auto; height: 500px; visibility: hidden;">
+        <input type="hidden" name="cover-url" id="cover-url">
+        <input type="hidden" name="album-url" id="album-url">
+    </form>
 
     {% if queued_puzzles %}
         <h2>Queued Puzzles</h2>
@@ -26,26 +46,6 @@
     {% endif %}
 
 
-    <h2>Add New Puzzle</h2>
-    <form action="{{ url_for('control_panel') }}" method="POST">
-        <label for="date">Date:</label>
-        <input type="date" name="date" id="date" required>
-
-        <label for="autocomplete">Autocomplete:</label>
-        <input type="checkbox" name="autocomplete" id="autocomplete">
-
-        <label for="answer">Answer:</label>
-        <input type="text" name="answer" id="answer" required>
-
-        <select id="album-options" style="visibility: hidden; max-width: 20rem;"></select>
-
-        <button type="submit">Confirm Album</button>
-
-        <br><br>
-        <img id="album-cover" src="" style="width: auto; height: 500px; visibility: hidden;">
-        <input type="hidden" name="cover-url" id="cover-url">
-        <input type="hidden" name="album-url" id="album-url">
-    </form>
 
     <script src="/static/js/control_panel.js?v=3.0"></script>
 </body>
