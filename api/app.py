@@ -67,7 +67,7 @@ def load_puzzles():
     conn = get_connection(connection_pool)
     with conn.cursor() as cursor:
         cursor.execute(
-            "SELECT id, date, answer, cover_url FROM puzzles ORDER BY date ASC")
+            "SELECT id, date, answer, cover_url FROM puzzles ORDER BY date DESC")
         rows = cursor.fetchall()
 
     puzzles = []
@@ -187,11 +187,14 @@ def login():
         return redirect(url_for('control_panel'))
 
     if request.method == 'POST':
-        if request.form['password'] == os.environ.get("CONTROL_PANEL_PASSWORD"):
+        if request.form['password'] == os.environ.get("ADMIN_PASSWORD"):
             session['logged_in'] = True
-            return redirect(url_for('control_panel'))
+            next_page = session.get('next_page', url_for('control_panel'))
+            session.pop('next_page', None)
+            return redirect(next_page)
         else:
             return 'Invalid password', 401
+        
     return '''
         <form method="post">
             <input type="password" name="password" placeholder="Password">
@@ -203,6 +206,7 @@ def login():
 @app.route('/control_panel', methods=['GET', 'POST'])
 def control_panel():
     if 'logged_in' not in session or not session['logged_in']:
+        session['next_page'] = request.url
         return redirect(url_for('login'))
 
     if not cache["puzzles"]:
@@ -246,6 +250,7 @@ def contact():
 @app.route('/emails', methods=['GET'])
 def emails():
     if 'logged_in' not in session or not session['logged_in']:
+        session['next_page'] = request.url
         return redirect(url_for('login'))
 
     emails = load_emails()
