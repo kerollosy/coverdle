@@ -27,8 +27,13 @@ TODO
 pool = redis.connection.BlockingConnectionPool.from_url(
     os.environ.get("REDIS_URL"))
 app = Flask(__name__)
-limiter = Limiter(app=app, key_func=get_remote_address, storage_uri="redis://", storage_options={"connection_pool": pool},
-                  strategy="fixed-window")
+limiter = Limiter(
+    app=app,
+    key_func=get_remote_address,
+    storage_uri="redis://",
+    storage_options={"connection_pool": pool},
+    strategy="fixed-window"
+)
 app.secret_key = os.environ.get("SECRET_KEY")
 tz = pytz.timezone("Egypt")
 
@@ -37,10 +42,18 @@ connection_pool = create_connection(os.environ.get("POSTGRES_HOST"), os.environ.
                                     os.environ.get("POSTGRES_USER"), os.environ.get("POSTGRES_PASSWORD"))
 
 
-default = {"cover": "https://i.imgur.com/1WWcfWL.jpeg", "answer": "Blonde",
-           "album": "https://music.apple.com/us/album/blonde/1146195596"}
-cache = {"date": None,
-         "cover_src": default["cover"], "answer": default["answer"], "puzzles": [], "album_url": default["album"]}
+default = {
+    "cover": "https://i.imgur.com/1WWcfWL.jpeg",
+    "answer": "Blonde",
+    "album": "https://music.apple.com/us/album/blonde/1146195596"
+}
+cache = {
+    "date": None,
+    "cover_src": default["cover"],
+    "answer": default["answer"],
+    "puzzles": [],
+    "album_url": default["album"]
+}
 
 
 def update_cache():
@@ -194,7 +207,7 @@ def login():
             return redirect(next_page)
         else:
             return 'Invalid password', 401
-        
+
     return '''
         <form method="post">
             <input type="password" name="password" placeholder="Password">
