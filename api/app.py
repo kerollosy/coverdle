@@ -16,6 +16,7 @@ from psycopg2.errors import UniqueViolation
 TODO 
 + Confirm that you want to know the correct answer when clicking on the idk button
 + Make the alerts() popups
++ When I add something to the control_panel, it should be added to the suggestions
 - Save cookies till the next day to prevent players from replaying the same day
 - Make the contact button send an email to me
 - View the correct answer and a timer after the user finishes
