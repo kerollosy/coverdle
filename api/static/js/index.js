@@ -71,50 +71,12 @@ $(document).ready(function () {
       }
     }
   
-    // Append the canvas to the main element
-    mainElement.append(canvas);
-  
-    // Add event listeners
-    mainButton.on("click", handleMainButtonClick);
-    submitGuessButton.on("click", handleSubmitGuess);
-    idkButton.on("click", handleIdkButtonClick);
-  
     function removeDataLists() {
       const existingOptions = $("#albums");
       existingOptions.remove();
     }
-  
-    guessInput.on('input', function () {
-      let val = guessInput.val();
-      if (!val) {
-        return false;
-      }
-  
-      if (val.length >= 2) {
-        // Remove existing data list
-        removeDataLists();
-  
-        let datalist = $("<datalist></datalist>");
-        datalist.attr("id", "albums");
-        guessInput.parent().append(datalist);
-        for (const option of options) {
-          let albumName = option.albumName;
-          let artist = option.artist;
-          // Check if the value is one of the options
-          if (val === albumName) {
-            removeDataLists();
-          } else if (albumName.toUpperCase().includes(val.toUpperCase())) {
-            let option_element = $("<option></option>");
-            option_element.attr("value", albumName);
-            option_element.html(artist);
-            datalist.append(option_element);
-          }
-        }
-      } else {
-        removeDataLists();
-      }
-    });
-  
+    
+    // Depixelate the image every 100ms
     function imageDepixel() {
       imaged = setInterval(depixel, 100);
     }
@@ -149,25 +111,6 @@ $(document).ready(function () {
         showFailScreen();
       }
     }
-  
-    info.on('click', function () {
-      info_overlay.addClass("is-open");
-    });
-  
-    info_close_overlay.on('click', () => {
-      info_overlay.attr("class", info_orig_overlay);
-    });
-    info_play_now.on('click', () => {
-      info_overlay.attr("class", info_orig_overlay);
-    });
-  
-    contact.on('click', function () {
-      contact_overlay.addClass("is-open");
-    });
-  
-    contact_close_overlay.on('click', () => {
-      contact_overlay.attr("class", contact_orig_overlay);
-    });
   
     // Handle click on the main button
     function handleMainButtonClick() {
@@ -245,6 +188,65 @@ $(document).ready(function () {
         .map(v => v < 10 ? "0" + v : v)
         .join(":");
     }
+  
+    // Append the canvas to the main element
+    mainElement.append(canvas);
+  
+    // Add event listeners
+    mainButton.on("click", handleMainButtonClick);
+    submitGuessButton.on("click", handleSubmitGuess);
+    idkButton.on("click", handleIdkButtonClick);
+  
+    guessInput.on('input', function () {
+      let val = guessInput.val();
+      if (!val) {
+        return false;
+      }
+  
+      if (val.length >= 2) {
+        // Remove existing data list
+        removeDataLists();
+  
+        let datalist = $("<datalist></datalist>");
+        datalist.attr("id", "albums");
+        guessInput.parent().append(datalist);
+        for (const option of options) {
+          let albumName = option.albumName;
+          let artist = option.artist;
+          // Check if the value is one of the options
+          if (val === albumName) {
+            removeDataLists();
+          } else if (albumName.toUpperCase().includes(val.toUpperCase())) {
+            let option_element = $("<option></option>");
+            option_element.attr("value", albumName);
+            option_element.html(artist);
+            datalist.append(option_element);
+          }
+        }
+      } else {
+        removeDataLists();
+      }
+    });
+  
+    info.on('click', function () {
+      info_overlay.addClass("is-open");
+    });
+  
+    info_close_overlay.on('click', () => {
+      info_overlay.attr("class", info_orig_overlay);
+    });
+    info_play_now.on('click', () => {
+      info_overlay.attr("class", info_orig_overlay);
+    });
+  
+    contact.on('click', function () {
+      contact_overlay.addClass("is-open");
+    });
+  
+    contact_close_overlay.on('click', () => {
+      contact_overlay.attr("class", contact_orig_overlay);
+    });
+  
     countdownElement.text(formatTime(timeLeft));
   
     const dayCountdown = setInterval(() => {
@@ -325,3 +327,4 @@ $(document).ready(function () {
       emailInput.parent().removeClass("error")
     }
   }
+  
