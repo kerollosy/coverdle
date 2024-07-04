@@ -10,6 +10,7 @@ from datetime import datetime, timedelta
 from util.DButil import create_connection, get_connection, release_connection
 from util.puzzleUtil import album_list
 from psycopg2.errors import UniqueViolation
+from dotenv import load_dotenv
 
 
 """
@@ -25,6 +26,7 @@ TODO
 - Make it "daily"
 """
 
+load_dotenv()
 pool = redis.connection.BlockingConnectionPool.from_url(
     os.environ.get("REDIS_URL"))
 app = Flask(__name__)
