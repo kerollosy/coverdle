@@ -11,7 +11,7 @@ def create_connection(DB_host, DB_name, DB_user, DB_password, DB_port=5432):
         user=DB_user,
         password=DB_password,
         port=DB_port,
-        sslmode="require"
+        sslmode="allow"
     )
 
 
