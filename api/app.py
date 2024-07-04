@@ -13,19 +13,6 @@ from psycopg2.errors import UniqueViolation
 from dotenv import load_dotenv
 
 
-"""
-TODO 
-+ Confirm that you want to know the correct answer when clicking on the idk button
-+ Make the alerts() popups
-+ When I add something to the control_panel, it should be added to the suggestions
-- Save cookies till the next day to prevent players from replaying the same day
-- Make the contact button send an email to me
-- View the correct answer and a timer after the user finishes
-- View the statistics (finished within x seconds and with y guesses left)
-- Show the recommendations correctly
-- Make it "daily"
-"""
-
 load_dotenv()
 pool = redis.connection.BlockingConnectionPool.from_url(
     os.environ.get("REDIS_URL"))
