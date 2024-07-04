@@ -1,1 +1,327 @@
-const _0x5b2fa1=_0x1af4;function _0x1af4(_0x36d836,_0x4d33a8){const _0x2866db=_0x2866();return _0x1af4=function(_0x1af492,_0x1f91f8){_0x1af492=_0x1af492-0x163;let _0x1801b2=_0x2866db[_0x1af492];return _0x1801b2;},_0x1af4(_0x36d836,_0x4d33a8);}function _0x2866(){const _0x253014=['#info-overlay','Time\x27s\x20up!\x20You\x20lose.','replaceWith','Correct!\x20You\x20win!','val','#timer','second','album_url','addClass','imageSmoothingEnabled','#gameOver','<datalist></datalist>','toUpperCase','display','puzzles','8ugCajC','hide','msImageSmoothingEnabled','62tWVjbw','floor','toFixed','seconds','onload','won','24056XKZGwo','error','#nextPuzzle','#info-close-button','Guess','</a>','#input-box','6620355RyNwll','ready','#idk','#contact-close-button','631065NiHbWk','input,\x20textarea','each','data','canvas','1552848HURIOg','length','includes','You\x20correctly\x20guessed\x20<a\x20id=\x22album_url\x22\x20href=\x22','Wrong!\x20Guesses\x20left:\x20','removeClass','<option></option>','remove','getContext','closest','current_date','text','#loading-screen','parent','#status','#info-play-now-button','1799445ksQyhE','Anonymous','webkitImageSmoothingEnabled','split','#guessInput','Today\x27s\x20album\x20was\x20<a\x20id=\x22album_url\x22\x20href=\x22','lost\x20','Try\x20Again\x20Tomorrow!','#mainButton','albumName','#main','artist','1642230VelqMW','albums','height','.game-details','show','</a>\x20in\x20','class','#info','getItem','#albums','map','setItem','is-open','flex','played','html','mozImageSmoothingEnabled','#submitGuessButton','#guessSection','#albumInfo','color','append','css','lost','Game\x20over.\x20You\x20lose.','click','setAttribute','27708561jEBtRC','#album-cover','focus','attr','onerror','answer','width','activeElement','drawImage','#countdown','toLowerCase','guesses','checkValidity'];_0x2866=function(){return _0x253014;};return _0x2866();}(function(_0x572f55,_0x20a70d){const _0x35dd84=_0x1af4,_0x579ad0=_0x572f55();while(!![]){try{const _0xf2d0b1=parseInt(_0x35dd84(0x1c4))/0x1*(-parseInt(_0x35dd84(0x1ca))/0x2)+-parseInt(_0x35dd84(0x17e))/0x3+parseInt(_0x35dd84(0x16e))/0x4+-parseInt(_0x35dd84(0x169))/0x5+-parseInt(_0x35dd84(0x18a))/0x6+-parseInt(_0x35dd84(0x165))/0x7+parseInt(_0x35dd84(0x1c1))/0x8*(parseInt(_0x35dd84(0x1a5))/0x9);if(_0xf2d0b1===_0x20a70d)break;else _0x579ad0['push'](_0x579ad0['shift']());}catch(_0x1f51e1){_0x579ad0['push'](_0x579ad0['shift']());}}}(_0x2866,0xbd61b),$(document)[_0x5b2fa1(0x166)](function(){const _0x2f6764=_0x5b2fa1,_0x191c3b=$(_0x2f6764(0x186)),_0x1e129d=$(_0x2f6764(0x182)),_0x45fab8=$(_0x2f6764(0x19b)),_0x2c590e=$(_0x2f6764(0x167)),_0x34964f=$(_0x2f6764(0x1b7)),_0x118736=$(_0x2f6764(0x19c)),_0x55f3d9=$(_0x2f6764(0x188)),_0x41deba=$(_0x2f6764(0x1a6)),_0x14e63d=$(_0x2f6764(0x17a)),_0x95b028=$(_0x2f6764(0x191)),_0x1696bf=$(_0x2f6764(0x1b2)),_0x51ada5=_0x1696bf[_0x2f6764(0x1a8)]('class'),_0x214c82=$(_0x2f6764(0x1cd)),_0x116c83=$(_0x2f6764(0x17d)),_0x417ccb=$(_0x2f6764(0x18d)),_0x28e173=$('#contact'),_0x5ad898=$('#contact-overlay'),_0xad3b57=_0x5ad898['attr'](_0x2f6764(0x190)),_0x330d2a=$(_0x2f6764(0x168)),_0x4369a8=$(_0x2f6764(0x1bc)),_0x894929=$(_0x2f6764(0x17c)),_0x16e6c2=$(_0x2f6764(0x19d)),_0xb6bb7f=_0x417ccb[_0x2f6764(0x16c)](_0x2f6764(0x1b9));let _0x1a3668=_0x417ccb['data']('time_left');const _0x4396e8=$(_0x2f6764(0x1ae)),_0x147a83=$(_0x2f6764(0x1cc));let _0x33d0a8,_0xefef7,_0x374196=0x5,_0x4af02b=_0x374196,_0x1d0192=0x3,_0x34edba=_0x1d0192,_0x56e43a=![];const _0xe6ce1d=_0x417ccb[_0x2f6764(0x16c)](_0x2f6764(0x1aa)),_0x1bff60=window[_0x2f6764(0x1c0)];_0x417ccb[_0x2f6764(0x175)]();let _0x43d7dc,_0x56be6d,_0x37f6df=0.4,_0x3905bd=document['createElement'](_0x2f6764(0x16d));const _0x410036=_0x3905bd[_0x2f6764(0x176)]('2d',{'willReadFrequently':!![]});function _0x160c41(){const _0xf2a7c0=_0x2f6764,_0xe9afb2=localStorage[_0xf2a7c0(0x192)](_0xf2a7c0(0x198));if(_0xe9afb2){playResult=localStorage[_0xf2a7c0(0x192)](_0xf2a7c0(0x198))[_0xf2a7c0(0x181)]('\x20')[0x0],playDate=localStorage[_0xf2a7c0(0x192)](_0xf2a7c0(0x198))[_0xf2a7c0(0x181)]('\x20')[0x1];if(playDate===_0x417ccb[_0xf2a7c0(0x16c)]('current_date')){if(playResult===_0xf2a7c0(0x1c9))_0x5eb8d6();else playResult===_0xf2a7c0(0x1a1)&&_0x1cb458();}}}_0x55f3d9[_0x2f6764(0x19f)](_0x3905bd),_0x191c3b['on'](_0x2f6764(0x1a3),_0x4be125),_0x45fab8['on'](_0x2f6764(0x1a3),_0x1b1fb3),_0x2c590e['on']('click',_0x909833);function _0x71214(){const _0x30cbbc=_0x2f6764,_0x1469ec=$(_0x30cbbc(0x193));_0x1469ec[_0x30cbbc(0x175)]();}_0x1e129d['on']('input',function(){const _0x3d947e=_0x2f6764;let _0x10d6a9=_0x1e129d[_0x3d947e(0x1b6)]();if(!_0x10d6a9)return![];if(_0x10d6a9[_0x3d947e(0x16f)]>=0x2){_0x71214();let _0x10b45c=$(_0x3d947e(0x1bd));_0x10b45c[_0x3d947e(0x1a8)]('id',_0x3d947e(0x18b)),_0x1e129d[_0x3d947e(0x17b)]()[_0x3d947e(0x19f)](_0x10b45c);for(const _0x21e9df of _0x1bff60){let _0x2daec5=_0x21e9df[_0x3d947e(0x187)],_0x2b47d0=_0x21e9df[_0x3d947e(0x189)];if(_0x10d6a9===_0x2daec5)_0x71214();else{if(_0x2daec5[_0x3d947e(0x1be)]()[_0x3d947e(0x170)](_0x10d6a9[_0x3d947e(0x1be)]())){let _0x166e5d=$(_0x3d947e(0x174));_0x166e5d[_0x3d947e(0x1a8)]('value',_0x2daec5),_0x166e5d[_0x3d947e(0x199)](_0x2b47d0),_0x10b45c[_0x3d947e(0x19f)](_0x166e5d);}}}}else _0x71214();});function _0x402ccb(){_0xefef7=setInterval(_0xdd80cd,0x64);}function _0xdd80cd(){const _0x1688b4=_0x2f6764;_0x37f6df+=_0x43d7dc/Math['pow'](0x2,0x9)/0xe;var _0x494eca=_0x37f6df/0x64;_0x494eca=_0x494eca[_0x1688b4(0x1c6)](0x3);var _0x457b0b=_0x3905bd[_0x1688b4(0x1ab)]*_0x494eca,_0x773260=_0x3905bd[_0x1688b4(0x18c)]*_0x494eca;_0x410036[_0x1688b4(0x1ad)](_0x29dfdc,0x0,0x0,_0x457b0b,_0x773260),_0x410036[_0x1688b4(0x1c3)]=![],_0x410036[_0x1688b4(0x19a)]=![],_0x410036[_0x1688b4(0x180)]=![],_0x410036[_0x1688b4(0x1bb)]=![],_0x410036[_0x1688b4(0x1ad)](_0x3905bd,0x0,0x0,_0x457b0b,_0x773260,0x0,0x0,_0x3905bd[_0x1688b4(0x1ab)],_0x3905bd[_0x1688b4(0x18c)]);}function _0xdb6415(){_0x33d0a8=setInterval(_0x33981d,0x3e8);}function _0x33981d(){const _0x57247a=_0x2f6764;_0x374196--,_0x34964f[_0x57247a(0x179)](_0x374196),_0x374196===0x0&&(alert(_0x57247a(0x1b3)),_0x1cb458());}_0x95b028['on'](_0x2f6764(0x1a3),function(){const _0x4c2e06=_0x2f6764;_0x1696bf[_0x4c2e06(0x1ba)]('is-open');}),_0x214c82['on'](_0x2f6764(0x1a3),()=>{const _0x81b716=_0x2f6764;_0x1696bf[_0x81b716(0x1a8)]('class',_0x51ada5);}),_0x116c83['on'](_0x2f6764(0x1a3),()=>{const _0x5a7a77=_0x2f6764;_0x1696bf[_0x5a7a77(0x1a8)](_0x5a7a77(0x190),_0x51ada5);}),_0x28e173['on'](_0x2f6764(0x1a3),function(){const _0x1e1c5e=_0x2f6764;_0x5ad898['addClass'](_0x1e1c5e(0x196));}),_0x330d2a['on'](_0x2f6764(0x1a3),()=>{const _0x332106=_0x2f6764;_0x5ad898[_0x332106(0x1a8)](_0x332106(0x190),_0xad3b57);});function _0x4be125(){const _0x3bd389=_0x2f6764;_0x56e43a?(clearInterval(_0x33d0a8),clearInterval(_0xefef7),_0x191c3b['hide'](),_0x118736[_0x3bd389(0x18e)]()):(_0xdb6415(),_0x402ccb(),_0x191c3b[_0x3bd389(0x179)](_0x3bd389(0x1ce)),_0x56e43a=!![]);}function _0x1b1fb3(){const _0x35a9c5=_0x2f6764,_0x1568d8=_0x1e129d['val']()[_0x35a9c5(0x1af)]()['trim']();_0x1568d8===_0xe6ce1d[_0x35a9c5(0x1af)]()?(alert(_0x35a9c5(0x1b5)),_0x5eb8d6()):(_0x1d0192--,_0x1d0192===0x0?(alert(_0x35a9c5(0x1a2)),_0x1cb458()):(alert(_0x35a9c5(0x172)+_0x1d0192),_0xdb6415(),_0x402ccb(),_0x1e129d[_0x35a9c5(0x1b6)](''),_0x71214(),_0x191c3b[_0x35a9c5(0x18e)](),_0x118736[_0x35a9c5(0x1c2)]()));}function _0x909833(){_0x1cb458();}function _0x9a7227(){const _0x56bba5=_0x2f6764;clearInterval(_0x33d0a8),clearInterval(_0xefef7),_0x410036[_0x56bba5(0x1ad)](_0x29dfdc,0x0,0x0),_0x191c3b[_0x56bba5(0x1c2)](),_0x118736[_0x56bba5(0x1c2)](),_0x34964f['hide'](),_0x4369a8[_0x56bba5(0x18e)](),_0x147a83[_0x56bba5(0x18e)]();}function _0x1cb458(){const _0x211077=_0x2f6764;_0x894929[_0x211077(0x199)](_0x211077(0x185)),_0x894929[_0x211077(0x1a0)](_0x211077(0x19e),'red'),_0x16e6c2['html'](_0x211077(0x183)+_0xb6bb7f+'\x22\x20target=\x22_blank\x22>'+_0xe6ce1d+_0x211077(0x163)),_0x9a7227(),localStorage['setItem']('played',_0x211077(0x184)+_0x417ccb[_0x211077(0x16c)](_0x211077(0x178)));}function _0x5eb8d6(){const _0x1befe4=_0x2f6764;_0x16e6c2[_0x1befe4(0x199)](_0x1befe4(0x171)+_0xb6bb7f+'\x22\x20target=\x22_blank\x22>'+_0xe6ce1d+_0x1befe4(0x18f)+(_0x4af02b-_0x374196+0x1)+'\x20'+(_0x4af02b-_0x374196+0x1===0x1?_0x1befe4(0x1b8):_0x1befe4(0x1c7))+'\x20using\x20'+(_0x34edba-_0x1d0192+0x1)+'\x20'+(_0x34edba-_0x1d0192+0x1===0x1?'guess':_0x1befe4(0x1b0))),_0x9a7227(),localStorage[_0x1befe4(0x195)](_0x1befe4(0x198),'won\x20'+_0x417ccb[_0x1befe4(0x16c)](_0x1befe4(0x178)));}function _0x2cc22a(_0x41b743){const _0x3c015f=_0x2f6764,_0x47c711=Math['floor'](_0x41b743/0xe10),_0x4a3763=Math[_0x3c015f(0x1c5)](_0x41b743%0xe10/0x3c),_0x27ce63=_0x41b743%0x3c;return[_0x47c711,_0x4a3763,_0x27ce63][_0x3c015f(0x194)](_0x51756c=>_0x51756c<0xa?'0'+_0x51756c:_0x51756c)['join'](':');}_0x4396e8[_0x2f6764(0x179)](_0x2cc22a(_0x1a3668));const _0x4689b8=setInterval(()=>{_0x1a3668-=0x1,_0x4396e8['text'](_0x2cc22a(_0x1a3668)),_0x1a3668===0x0&&clearInterval(_0x4689b8);},0x3e8),_0x29dfdc=new Image();_0x29dfdc['src']=_0x41deba[_0x2f6764(0x1a8)]('src'),_0x29dfdc['crossOrigin']=_0x2f6764(0x17f),_0x29dfdc[_0x2f6764(0x1c8)]=function(){const _0x316924=_0x2f6764;_0x41deba[_0x316924(0x1b4)](_0x3905bd),_0x43d7dc=_0x29dfdc[_0x316924(0x1ab)],_0x56be6d=_0x29dfdc['height'],_0x55f3d9[_0x316924(0x1a0)](_0x316924(0x1bf),_0x316924(0x197)),_0x14e63d[_0x316924(0x1c2)](),_0x3905bd[_0x316924(0x1a4)](_0x316924(0x1ab),_0x43d7dc),_0x3905bd[_0x316924(0x1a4)]('height',_0x56be6d);var _0x27da5f=_0x37f6df/0x64,_0x5f2824=_0x3905bd[_0x316924(0x1ab)]*_0x27da5f,_0x2c20c4=_0x3905bd['height']*_0x27da5f;_0x410036[_0x316924(0x1ad)](_0x29dfdc,0x0,0x0,_0x5f2824,_0x2c20c4),_0x410036['msImageSmoothingEnabled']=![],_0x410036['mozImageSmoothingEnabled']=![],_0x410036[_0x316924(0x180)]=![],_0x410036[_0x316924(0x1bb)]=![],_0x410036[_0x316924(0x1ad)](_0x3905bd,0x0,0x0,_0x5f2824,_0x2c20c4,0x0,0x0,_0x3905bd[_0x316924(0x1ab)],_0x3905bd[_0x316924(0x18c)]),_0x160c41();},_0x29dfdc[_0x2f6764(0x1a9)]=function(){alert('Failed\x20to\x20load\x20the\x20image');};}));function setFocus(_0xd0397b){const _0xbeafc7=_0x5b2fa1;var _0x10f99a=$(document[_0xbeafc7(0x1ac)]);if(_0xd0397b)_0x10f99a[_0xbeafc7(0x17b)]()[_0xbeafc7(0x1ba)](_0xbeafc7(0x1a7));else{var _0x44d001=$(_0xbeafc7(0x164));_0x44d001[_0xbeafc7(0x173)]('focus'),$(_0xbeafc7(0x16a))[_0xbeafc7(0x16b)](function(){const _0x786500=_0xbeafc7;var _0x8fdb37=$(this)[_0x786500(0x177)]('.input-box');$(this)[_0x786500(0x1b6)]()?_0x8fdb37['addClass'](_0x786500(0x1a7)):_0x8fdb37[_0x786500(0x173)]('focus');});}}function checkEmailValidity(){const _0x5e8c4b=_0x5b2fa1;let _0x318aa5=$('#email-input');_0x318aa5[0x0][_0x5e8c4b(0x1b1)]()?(_0x318aa5[_0x5e8c4b(0x17b)]()[_0x5e8c4b(0x173)](_0x5e8c4b(0x1cb)),_0x318aa5[_0x5e8c4b(0x173)]('error')):(_0x318aa5[_0x5e8c4b(0x17b)]()[_0x5e8c4b(0x1ba)](_0x5e8c4b(0x1cb)),_0x318aa5[_0x5e8c4b(0x1ba)]('error')),_0x318aa5['val']()==0x0&&(_0x318aa5['removeClass'](_0x5e8c4b(0x1cb)),_0x318aa5[_0x5e8c4b(0x17b)]()[_0x5e8c4b(0x173)](_0x5e8c4b(0x1cb)));}
+
+$(document).ready(function () {
+    // DOM elements
+    const mainButton = $("#mainButton");
+    const guessInput = $("#guessInput");
+    const submitGuessButton = $("#submitGuessButton");
+    const idkButton = $("#idk");
+    const timerElement = $("#timer");
+    const guessSection = $("#guessSection");
+    const mainElement = $("#main");
+    const poster = $("#album-cover");
+    const loading_screen = $("#loading-screen");
+  
+    const info = $("#info");
+    const info_overlay = $("#info-overlay");
+    const info_orig_overlay = info_overlay.attr("class");
+    const info_close_overlay = $("#info-close-button");
+    const info_play_now = $("#info-play-now-button");
+  
+    const gameDetails = $(".game-details");
+  
+    const contact = $("#contact");
+    const contact_overlay = $("#contact-overlay");
+    const contact_orig_overlay = contact_overlay.attr("class");
+    const contact_close_overlay = $("#contact-close-button");
+  
+    const gameOver = $("#gameOver");
+    const gameStatus = $("#status");
+    const albumInfo = $("#albumInfo");
+    const album_url = gameDetails.data("album_url");
+  
+    let timeLeft = gameDetails.data("time_left");
+    const countdownElement = $("#countdown");
+    const nextPuzzle = $("#nextPuzzle");
+  
+    // Game variables
+    let countdown;
+    let imaged;
+    let remainingTime = 5;
+    let defaultRemainingTime = remainingTime;
+    let guesses = 3;
+    let defaultGuesses = guesses;
+    let started = false;
+    const correctAnswer = gameDetails.data("answer");
+    const options = window.puzzles;
+    gameDetails.remove();
+  
+  
+    // Canvas variables
+    let width;
+    let height;
+    let pixel_state = 0.4
+    let canvas = document.createElement("canvas")
+    const context = canvas.getContext("2d", { willReadFrequently: true });
+  
+  
+    function handlePlayStatus() {
+      const playedStatus = localStorage.getItem("played");
+  
+      if (playedStatus) {
+        playResult = localStorage.getItem("played").split(" ")[0];
+        playDate = localStorage.getItem("played").split(" ")[1];
+  
+        if (playDate === gameDetails.data("current_date")) {
+          if (playResult === "won") {
+            showWinScreen();
+          } else if (playResult === "lost") {
+            showFailScreen();
+          }
+        }
+      }
+    }
+  
+    // Append the canvas to the main element
+    mainElement.append(canvas);
+  
+    // Add event listeners
+    mainButton.on("click", handleMainButtonClick);
+    submitGuessButton.on("click", handleSubmitGuess);
+    idkButton.on("click", handleIdkButtonClick);
+  
+    function removeDataLists() {
+      const existingOptions = $("#albums");
+      existingOptions.remove();
+    }
+  
+    guessInput.on('input', function () {
+      let val = guessInput.val();
+      if (!val) {
+        return false;
+      }
+  
+      if (val.length >= 2) {
+        // Remove existing data list
+        removeDataLists();
+  
+        let datalist = $("<datalist></datalist>");
+        datalist.attr("id", "albums");
+        guessInput.parent().append(datalist);
+        for (const option of options) {
+          let albumName = option.albumName;
+          let artist = option.artist;
+          // Check if the value is one of the options
+          if (val === albumName) {
+            removeDataLists();
+          } else if (albumName.toUpperCase().includes(val.toUpperCase())) {
+            let option_element = $("<option></option>");
+            option_element.attr("value", albumName);
+            option_element.html(artist);
+            datalist.append(option_element);
+          }
+        }
+      } else {
+        removeDataLists();
+      }
+    });
+  
+    function imageDepixel() {
+      imaged = setInterval(depixel, 100);
+    }
+  
+    function depixel() {
+      pixel_state += width / Math.pow(2, 9) / 14
+      // pixel_state += width / (width * 9);
+      var size = pixel_state / 100
+      size = size.toFixed(3)
+      var w = canvas.width * size
+      var h = canvas.height * size
+  
+      context.drawImage(image, 0, 0, w, h);
+  
+      context.msImageSmoothingEnabled = false;
+      context.mozImageSmoothingEnabled = false;
+      context.webkitImageSmoothingEnabled = false;
+      context.imageSmoothingEnabled = false;
+  
+      context.drawImage(canvas, 0, 0, w, h, 0, 0, canvas.width, canvas.height)
+    }
+  
+    function startCountdown() {
+      countdown = setInterval(updateTimer, 1000);
+    }
+  
+    function updateTimer() {
+      remainingTime--;
+      timerElement.text(remainingTime);
+      if (remainingTime === 0) {
+        alert("Time's up! You lose.");
+        showFailScreen();
+      }
+    }
+  
+    info.on('click', function () {
+      info_overlay.addClass("is-open");
+    });
+  
+    info_close_overlay.on('click', () => {
+      info_overlay.attr("class", info_orig_overlay);
+    });
+    info_play_now.on('click', () => {
+      info_overlay.attr("class", info_orig_overlay);
+    });
+  
+    contact.on('click', function () {
+      contact_overlay.addClass("is-open");
+    });
+  
+    contact_close_overlay.on('click', () => {
+      contact_overlay.attr("class", contact_orig_overlay);
+    });
+  
+    // Handle click on the main button
+    function handleMainButtonClick() {
+      if (started) {
+        clearInterval(countdown);
+        clearInterval(imaged);
+        mainButton.hide();
+        guessSection.show();
+      } else {
+        startCountdown();
+        imageDepixel();
+        mainButton.text("Guess");
+        started = true;
+      }
+    }
+  
+    // Handle click on the submit guess button
+    function handleSubmitGuess() {
+      const userGuess = guessInput.val().toLowerCase().trim();
+      if (userGuess === correctAnswer.toLowerCase()) {
+        alert("Correct! You win!");
+        showWinScreen();
+      } else {
+        guesses--;
+        if (guesses === 0) {
+          alert("Game over. You lose.");
+          showFailScreen();
+        } else {
+          alert("Wrong! Guesses left: " + guesses);
+          startCountdown();
+          imageDepixel();
+          guessInput.val("");
+          removeDataLists();
+          mainButton.show();
+          guessSection.hide();
+        }
+      }
+    }
+  
+    // Handle click on the "I don't know" button
+    function handleIdkButtonClick() {
+      showFailScreen();
+    }
+  
+    function gameFinish() {
+      clearInterval(countdown);
+      clearInterval(imaged);
+      context.drawImage(image, 0, 0);
+      mainButton.hide();
+      guessSection.hide();
+      timerElement.hide();
+      gameOver.show();
+      nextPuzzle.show();
+    }
+  
+    function showFailScreen() {
+      gameStatus.html("Try Again Tomorrow!");
+      gameStatus.css("color", "red");
+      albumInfo.html(`Today's album was <a id="album_url" href="${album_url}" target="_blank">${correctAnswer}</a>`);
+      gameFinish();
+      localStorage.setItem("played", `lost ${gameDetails.data("current_date")}`);
+    }
+  
+    function showWinScreen() {
+      albumInfo.html(`You correctly guessed <a id="album_url" href="${album_url}" target="_blank">${correctAnswer}</a> in ${(defaultRemainingTime - remainingTime) + 1} ${(defaultRemainingTime - remainingTime) + 1 === 1 ? 'second' : 'seconds'} using ${(defaultGuesses - guesses) + 1} ${(defaultGuesses - guesses) + 1 === 1 ? 'guess' : 'guesses'}`);
+      gameFinish();
+      localStorage.setItem("played", `won ${gameDetails.data("current_date")}`);
+    }
+  
+    function formatTime(seconds) {
+      const hours = Math.floor(seconds / 3600);
+      const minutes = Math.floor((seconds % 3600) / 60);
+      const remainingSeconds = seconds % 60;
+      return [hours, minutes, remainingSeconds]
+        .map(v => v < 10 ? "0" + v : v)
+        .join(":");
+    }
+    countdownElement.text(formatTime(timeLeft));
+  
+    const dayCountdown = setInterval(() => {
+      timeLeft -= 1;
+      countdownElement.text(formatTime(timeLeft));
+      if (timeLeft === 0) {
+        clearInterval(dayCountdown);
+      }
+    }, 1000);
+  
+    // Load the image and pixelate the canvas
+    const image = new Image();
+    image.src = poster.attr("src");
+    image.crossOrigin = "Anonymous";
+    image.onload = function () {
+      // Replaces the img with the canvas so it's in the same position
+      poster.replaceWith(canvas);
+  
+      width = image.width;
+      height = image.height;
+  
+      mainElement.css("display", "flex");
+      loading_screen.hide();
+  
+      canvas.setAttribute("width", width);
+      canvas.setAttribute("height", height);
+      var size = pixel_state / 100
+      var w = canvas.width * size
+      var h = canvas.height * size
+  
+      context.drawImage(image, 0, 0, w, h);
+  
+      context.msImageSmoothingEnabled = false;
+      context.mozImageSmoothingEnabled = false;
+      context.webkitImageSmoothingEnabled = false;
+      context.imageSmoothingEnabled = false;
+  
+      context.drawImage(canvas, 0, 0, w, h, 0, 0, canvas.width, canvas.height)
+      handlePlayStatus();
+    }
+  
+    image.onerror = function () {
+      alert("Failed to load the image");
+    }
+  });
+  
+  
+  function setFocus(state) {
+    var element = $(document.activeElement);
+    if (state) {
+      element.parent().addClass("focus");
+    } else {
+      var box = $("#input-box");
+      box.removeClass("focus");
+      $("input, textarea").each(function () {
+        var parent = $(this).closest(".input-box");
+        if ($(this).val()) {
+          parent.addClass("focus");
+        } else {
+          parent.removeClass("focus");
+        }
+      });
+    }
+  }
+  
+  function checkEmailValidity() {
+    let emailInput = $("#email-input");
+  
+    if (emailInput[0].checkValidity()) {
+      emailInput.parent().removeClass("error")
+      emailInput.removeClass("error")
+    } else {
+      emailInput.parent().addClass("error");
+      emailInput.addClass("error")
+    }
+    if (emailInput.val() == 0) {
+      emailInput.removeClass("error")
+      emailInput.parent().removeClass("error")
+    }
+  }

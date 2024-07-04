@@ -9,3 +9,5 @@ api/templates/script.js
 blond.jpeg
 __pycache__/
 node_modules/
+clean-js/
+obfuscate.js
