@@ -84,5 +84,6 @@ album_list = [
     {"albumName": "Daydream", "artist": "Mariah Carey"},
     {"albumName": "Beyoncé", "artist": "Beyoncé"},
     {"albumName": "Graceland", "artist": "Paul Simon"},
-    {"albumName": "Wish You Were Here", "artist": "Pink Floyd"}
+    {"albumName": "Wish You Were Here", "artist": "Pink Floyd"},
+    {"albumName": "كوكتيل غنائي للفنان تووليت حصرياً لحبايب قلبي", "artist": "TUL8TE"}
 ]
